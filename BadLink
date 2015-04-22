@@ -1,0 +1,108 @@
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.awt.CardLayout;
+
+public class BadLink extends JFrame implements ActionListener {
+	
+	String lessonBadLink = "Guidelines for Safe Downloads: \n\n"
+				+ "1. While downloading any file close all the applications that "
+				+ "are running on your computer, let only one set-up file run "
+				+ "at a time of downloading. \n\n2. Close all the important applications "
+				+ "in order to be safe if something goes wrong while downloading. "
+				+ "\n\n3. Set firewalls, set antivirus to actively scan all the files "
+				+ "you download. \n\n4. Scan all the files after you download whether "
+				+ "from websites or links received from e-mails. \n\n5. Always use "
+				+ "updated antivirus, spam filter and spyware to help detect "
+				+ "and remove virus, spyware from the application you want to "
+				+ "download. \n\n6. Never download any files like music, video, games "
+				+ "and many more from untrusted sites and don’t go by the "
+				+ "recommendations given by your friends or made by any random "
+				+ "website's comments. \n\n7. Check that the URLs are same and always "
+				+ "download games, music or videos from the secure websites like "
+				+ "which use HTTPS websites instead of HTTP. In the web address, "
+				+ "it replaces “http” to https”. The https refers to the hypertext "
+				+ "transfer protocol secure. \n\n8. Download anything only from "
+				+ "thrust worthy websites. Don’t click links to download anything "
+				+ "you see on unauthorized sites. \n\n9. If any dirty words appear "
+				+ "on the website just close the window no matter how important it "
+				+ "is, because  spyware may be installed on your PC from such websites. "
+				+ "\n\n 10. Check the size of the file before you download, sometimes "
+				+ "it shows a very small size but after you click it increases the size "
+				+ "of the file. \n\n11. Never believe anything which says click on this "
+				+ "link and  your computer settings will be changed and your PC can be "
+				+ "turned into XBOX and can play unlimited games on your computer. "
+				+ "\n\n12. Don’t accept anything that offers you free download because "
+				+ "that may contain malicious software. \n\n13. Don’t click the link "
+				+ "or file and let it start download automatically, download the file "
+				+ "and save where you want save and then run on the application. \n\n"
+				+ "14. Set secure browser settings before you download anything. \n\n"
+				+ "15. Read carefully before you click on install or run application. "
+				+ "That means read terms and conditions. \n\n16. Don’t download anything "
+				+ "until you know complete information of the website and know whether "
+				+ "it is an original site of an original company. \n\n17. Never download "
+				+ "from the links that offer free antivirus or anti spyware software, "
+				+ "always download from trusted sites, if you are not sure about the site "
+				+ "you are downloading, enter the site into favourite search engine to see "
+				+ "anyone posted or reported that it contains unwanted technologies.";
+	
+	String lessonPrivacySetting = "";
+	
+	Panel cardPanel = new Panel();
+	Panel controlPanel = new Panel();
+	
+	JButton nextbutton;
+	JButton preButton;
+	
+    CardLayout card = new CardLayout();
+
+	public BadLink() {
+		super("Bad Link");
+        setSize(500, 500);
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
+		
+        JTextArea textArea;
+	    textArea = new JTextArea(50, 50);
+	    textArea.setText(lessonBadLink);
+	    textArea.setEditable(false);
+	    textArea.setLineWrap(true);
+	    textArea.setWrapStyleWord(true);
+	    JScrollPane scrollPane = new JScrollPane(textArea);
+	    
+	    cardPanel.add(scrollPane);
+        cardPanel.setLayout(card);    
+
+	    for (int i = 0; i < 1; i++) {
+	    	cardPanel.add(new JButton("Button" + i));
+        }
+	     
+	    nextbutton = new JButton("Next");
+	    preButton = new JButton("Previous");
+
+        nextbutton.addActionListener(this);
+	    preButton.addActionListener(this);
+
+        controlPanel.add(preButton);
+        controlPanel.add(nextbutton);
+
+        Container container=getContentPane();
+        container.add(cardPanel,BorderLayout.CENTER);
+        container.add(controlPanel,BorderLayout.SOUTH);
+	}
+
+    public void actionPerformed(ActionEvent e){
+        if (e.getSource() == nextbutton){
+        	card.next(cardPanel);     
+	    }
+
+	    if (e.getSource() == preButton){
+            card.previous(cardPanel);
+        }
+    }
+
+    public static void main(String[] args) {
+    	BadLink card = new BadLink();   
+	}
+}
