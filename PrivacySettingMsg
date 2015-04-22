@@ -1,0 +1,5 @@
+String lessonPrivacySetting = "Guidelines for Privacy Settings: \n\n"
+			+ "1. Most of the sites and services provide options for privacy settings "
+			+ "and use them to prevent attackers to view your information. \n\n2. You "
+			+ "can also set the privacy settings according to whom you want to allow "
+			+ "seeing your information.";
