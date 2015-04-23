@@ -85,15 +85,16 @@ public class InfoTest extends JPanel implements MyQuestion {
 	public Boolean isCorrect(){
 		
         String name = nameField.getText();
-        String birthday = birthdayField.getText();
+//        String birthday = birthdayField.getText();
         String email = emailField.getText();
-        String address = addressField.getText();
-        String phone = phoneField.getText();
-        String ssn = ssnField.getText();
+//        String address = addressField.getText();
+//        String phone = phoneField.getText();
+//        String ssn = ssnField.getText();
         
-        if(!name.equals("")){
+        if(!name.equals("") && !email.equals("")){
         	
         	return true;
+        	
         }else{
         	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
         	JOptionPane.showMessageDialog(anApplet,
@@ -152,7 +153,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 			
 			if (isInfoCorrect){
 								
-				anApplet.showCanvas();				
+				anApplet.showNextTest(number);				
 			}
 		}		
 	}	
