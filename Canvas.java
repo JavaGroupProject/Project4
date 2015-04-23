@@ -1,8 +1,10 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class Canvas extends JPanel {
@@ -41,6 +44,8 @@ public class Canvas extends JPanel {
 	}
 	
 	public void initCanvas(){
+		
+		// move the initialization of each element to its own method
 		
 		// initialize the spring layout
 		springLayout = new SpringLayout();
@@ -99,10 +104,12 @@ public class Canvas extends JPanel {
         springLayout.putConstraint(SpringLayout.NORTH, profpicLabel, 10, SpringLayout.NORTH, this);
         
         add(profpicLabel);
-		
+        
 		privacyPanel = new JPanel();
 		privacyPanel.setPreferredSize(new Dimension(160, 250));
 		privacyPanel.setBackground(Color.WHITE);
+		
+		privacyPanel.add(new JLabel("Privacy Settings"), BorderLayout.CENTER);
 		
 		springLayout.putConstraint(SpringLayout.EAST, privacyPanel, -10, SpringLayout.WEST, statusScrollPane);
         springLayout.putConstraint(SpringLayout.NORTH, privacyPanel, 10, SpringLayout.SOUTH, profpicLabel);
@@ -110,8 +117,15 @@ public class Canvas extends JPanel {
         add(privacyPanel);
         
 		infoPanel = new JPanel();
+		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		infoPanel.setPreferredSize(new Dimension(160, 250));
 		infoPanel.setBackground(Color.WHITE);
+		
+		infoPanel.add(new JLabel("Personal info:"));
+		infoPanel.add(new JLabel("Name"));
+		infoPanel.add(new JLabel("Email"));
+		infoPanel.add(new JLabel("Birthday"));
+		infoPanel.add(new JLabel("etc."));
 		
 		springLayout.putConstraint(SpringLayout.EAST, infoPanel, -10, SpringLayout.WEST, statusScrollPane);
         springLayout.putConstraint(SpringLayout.NORTH, infoPanel, 10, SpringLayout.SOUTH, privacyPanel);
@@ -122,6 +136,8 @@ public class Canvas extends JPanel {
 		friendsPanel.setPreferredSize(new Dimension(160, 350));
 		friendsPanel.setBackground(Color.WHITE);
 		
+		friendsPanel.add(new JLabel("Friends"), BorderLayout.CENTER);
+		
 		springLayout.putConstraint(SpringLayout.WEST, friendsPanel, 10, SpringLayout.EAST, statusScrollPane);
         springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 10, SpringLayout.NORTH, this);
 		
@@ -130,6 +146,8 @@ public class Canvas extends JPanel {
 		picturesPanel = new JPanel();
 		picturesPanel.setPreferredSize(new Dimension(160, 300));
 		picturesPanel.setBackground(Color.WHITE);
+		
+		picturesPanel.add(new JLabel("Pictures"), BorderLayout.CENTER);
 		
 		springLayout.putConstraint(SpringLayout.WEST, picturesPanel, 10, SpringLayout.EAST, statusScrollPane);
         springLayout.putConstraint(SpringLayout.NORTH, picturesPanel, 10, SpringLayout.SOUTH, friendsPanel);
@@ -143,29 +161,38 @@ public class Canvas extends JPanel {
 		
 		public void actionPerformed(ActionEvent e){
 			
-			JTextArea post = new JTextArea();
-			post.setText(status.getText());
+			// string to store the text to post on the newsfeed
+			String postText = status.getText();
 			
-			post.setEditable(false);
-			post.setLineWrap(true);
-			post.setWrapStyleWord(true);
-			JScrollPane scroll = new JScrollPane(post);
-			scroll.setMaximumSize(new Dimension(340, 50));
-			//scroll.setMinimumSize(new Dimension(370, 50));
-			scroll.setPreferredSize(new Dimension(340, 50));
-			newsfeedPanel.add(scroll, 0);
+			// only post if there is actually text in the post
+			if (!postText.equals("")){
+				
+				JTextArea post = new JTextArea();
+				post.setText(postText);
+				
+				post.setEditable(false);
+				post.setLineWrap(true);
+				post.setWrapStyleWord(true);
+				JScrollPane scroll = new JScrollPane(post);
+				scroll.setMaximumSize(new Dimension(340, 50));
+				scroll.setMinimumSize(new Dimension(340, 50));
+				scroll.setPreferredSize(new Dimension(340, 50));
+				newsfeedPanel.add(scroll, 0);
+				
+				//newsfeedPanel.add(new JLabel(status.getText()), 0);
+				
+				// http://stackoverflow.com/questions/15798532/how-to-clear-jtextarea
+				status.setText(null);
+				status.revalidate();
+				status.repaint();
+				
+				newsfeedPanel.revalidate();
+				newsfeedPanel.repaint();
+				
+				//newsfeedScrollPane.setViewportView(newsfeedPanel);
+				
+			}
 			
-			//newsfeedPanel.add(new JLabel(status.getText()), 0);
-			
-			// http://stackoverflow.com/questions/15798532/how-to-clear-jtextarea
-			status.setText(null);
-			status.revalidate();
-			status.repaint();
-			
-			newsfeedPanel.revalidate();
-			newsfeedPanel.repaint();
-			
-			//newsfeedScrollPane.setViewportView(newsfeedPanel);
 
 		}
 		
