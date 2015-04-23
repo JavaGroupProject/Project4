@@ -1,10 +1,12 @@
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -29,6 +31,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 	private JLabel addressLabel;
 	private JLabel phoneLabel;
 	private JLabel ssnLabel;
+	private JLabel required;
 	
 	// Fields for user info
 	private JTextField nameField;
@@ -49,34 +52,6 @@ public class InfoTest extends JPanel implements MyQuestion {
         
 		// Set the layout
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        
-        /*nameLabel = new JLabel("Full name: ");
-		birthdayLabel = new JLabel("Birthday:");
-		emailLabel = new JLabel("Email: ");
-		addressLabel = new JLabel("Address: ");
-		phoneLabel = new JLabel("Phone number: ");
-		ssnLabel = new JLabel("Social security number: ");
-		
-		nameField = new JTextField(20);
-		birthdayField = new JTextField(20);
-		emailField = new JTextField(20);
-		addressField = new JTextField(20);
-		phoneField = new JTextField(20);
-		ssnField = new JTextField(20);
-				
-		nameLabel.setAlignmentX(CENTER_ALIGNMENT);
-		birthdayLabel.setAlignmentX(CENTER_ALIGNMENT);
-		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
-		addressLabel.setAlignmentX(CENTER_ALIGNMENT);
-		phoneLabel.setAlignmentX(CENTER_ALIGNMENT);
-		ssnLabel.setAlignmentX(CENTER_ALIGNMENT);
-		
-		nameField.setMaximumSize(new Dimension(300,30));
-		birthdayField.setMaximumSize(new Dimension(300,30));
-		emailField.setMaximumSize(new Dimension(300,30));
-		addressField.setMaximumSize(new Dimension(300,30));
-		phoneField.setMaximumSize(new Dimension(300,30));
-		ssnField.setMaximumSize(new Dimension(300,30));*/
         
         setQuestion();
         setAnswer();
@@ -99,6 +74,7 @@ public class InfoTest extends JPanel implements MyQuestion {
         add(ssnLabel);
         add(ssnField);
         add(submitButton);
+        add(required);
 		
 	}
 	
@@ -115,10 +91,15 @@ public class InfoTest extends JPanel implements MyQuestion {
         String phone = phoneField.getText();
         String ssn = ssnField.getText();
         
-        if(!name.equals("") && birthday.equals("") && !email.equals("") && address.equals("") &&
-           phone.equals("") && ssn.equals("")){
+        if(!name.equals("")){
         	
         	return true;
+        }else{
+        	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
+        	JOptionPane.showMessageDialog(anApplet,
+        		    "Please provide some information before proceeding.",
+        		    "Error",
+        		    JOptionPane.ERROR_MESSAGE);
         }
 		
 		return false;
@@ -144,19 +125,23 @@ public class InfoTest extends JPanel implements MyQuestion {
 	
 	public void setQuestion(){
 		
-        nameLabel = new JLabel("Full name: ");
+        nameLabel = new JLabel("*Name: ");
 		birthdayLabel = new JLabel("Birthday:");
-		emailLabel = new JLabel("Email: ");
+		emailLabel = new JLabel("*Email: ");
 		addressLabel = new JLabel("Address: ");
 		phoneLabel = new JLabel("Phone number: ");
 		ssnLabel = new JLabel("Social security number: ");
+		
+		required = new JLabel("* Required information");
 		
 		nameLabel.setAlignmentX(CENTER_ALIGNMENT);
 		birthdayLabel.setAlignmentX(CENTER_ALIGNMENT);
 		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
 		addressLabel.setAlignmentX(CENTER_ALIGNMENT);
 		phoneLabel.setAlignmentX(CENTER_ALIGNMENT);
-		ssnLabel.setAlignmentX(CENTER_ALIGNMENT);		
+		ssnLabel.setAlignmentX(CENTER_ALIGNMENT);
+		required.setAlignmentX(CENTER_ALIGNMENT);
+		
 	}
 	
 	class TextListener implements ActionListener {
@@ -167,7 +152,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 			
 			if (isInfoCorrect){
 								
-				anApplet.showNextTest(number);				
+				anApplet.showCanvas();				
 			}
 		}		
 	}	

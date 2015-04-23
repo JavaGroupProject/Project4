@@ -113,6 +113,8 @@ public class MyApplet extends JApplet{
 	private TeacherInfo teacher = new TeacherInfo(this);
 	private PasswordTest password = new PasswordTest(this, 1);
 	private InfoTest info = new InfoTest(this, 2);
+	private PictureTest picture = new PictureTest(this, 3);
+	private Canvas canvas = new Canvas(this);
 	
 	// Set Strings for Panels
 	final static String WELCOME = "Welcome";
@@ -125,8 +127,8 @@ public class MyApplet extends JApplet{
 	final static String TEACHER = "Teacher";
 	final static String PASSWORD = "Test1";
 	final static String INFO = "Test2";
-	
-	
+	final static String CANVAS = "Canvas";
+	final static String PICTURE = "Picture";
 	
 	public MyApplet(){
 		
@@ -147,6 +149,8 @@ public class MyApplet extends JApplet{
 		cards.add(teacher, TEACHER);
 		cards.add(password, PASSWORD);
 		cards.add(info, INFO);
+		cards.add(picture, PICTURE);
+		cards.add(canvas, CANVAS);
 		
 		// Add the cardlayout to the applet
 		add(cards);	
@@ -158,6 +162,16 @@ public class MyApplet extends JApplet{
 		
 		// Check if the page exists
 		number++;
+		String newCardName = "Test" + number;
+		
+		cardLayout.show(cards, newCardName);
+	}
+	
+	// Shows the next lesson
+	public void showPreviousTest(int number){
+		
+		// Check if the page exists
+		number--;
 		String newCardName = "Test" + number;
 		
 		cardLayout.show(cards, newCardName);
@@ -208,6 +222,10 @@ public class MyApplet extends JApplet{
 	public void showTeacher(){
 		
 		cardLayout.show(cards, TEACHER);
+	}
+	
+	public void showCanvas(){
+		cardLayout.show(cards, CANVAS);
 	}
 	
 	// Main
