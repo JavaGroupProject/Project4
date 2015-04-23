@@ -3,20 +3,19 @@ import java.awt.Color;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 
+@SuppressWarnings("serial")
 public class TeacherInfo extends JPanel {
 
 	// Applet object
 	private MyApplet anApplet;
 	
 	// Create the return button
-	JButton returnButton = new JButton("RETURN");
+	JButton returnButton = new JButton("BACK");
 	
 	// string with the teacher information
 	private String msg = "Info will go here.";

@@ -1,4 +1,4 @@
-interface MyQuestion{
+public interface MyQuestion{
 	
 	public void getAnswer();
 	

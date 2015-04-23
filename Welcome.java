@@ -21,7 +21,7 @@ public class Welcome extends JPanel {
 	private JTextArea textArea;
 		
 	// Create buttons
-	JButton forwardButton = new JButton("FORWARD");
+	JButton forwardButton = new JButton("NEXT");
 	JButton teacherButton = new JButton("Information for Instructors");
 	
 	// Constructor

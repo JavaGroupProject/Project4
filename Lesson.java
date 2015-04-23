@@ -24,8 +24,8 @@ public class Lesson extends JPanel{
 	private JTextArea textArea;
 	
 	// Create buttons
-	JButton forwardButton = new JButton("FORWARD");
-	JButton returnButton = new JButton("RETURN");
+	JButton forwardButton = new JButton("NEXT");
+	JButton returnButton = new JButton("BACK");
 	
 	// Constructor
 	public Lesson(MyApplet thisApplet, int lessonNum, String msg) {
