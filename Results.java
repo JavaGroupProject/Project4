@@ -5,10 +5,11 @@ import javax.swing.JPanel;
 public class Results extends JPanel{
 
 	// Applet object
-	private myApplet anApplet;
+	@SuppressWarnings("unused")
+	private MyApplet anApplet;
 	
 	// Constructor
-	public Results(myApplet thisApplet) {
+	public Results(MyApplet thisApplet) {
 		
 		// Pass in the frame
 		this.anApplet = thisApplet;
