@@ -13,7 +13,7 @@ import javax.swing.SpringLayout;
 public class PasswordTest extends JPanel implements MyQuestion {
 
 	// Applet object
-	private MyApplet anApplet;
+	private OurController anApplet;
 	
 	// Layout
 	private SpringLayout layout;
@@ -38,7 +38,7 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	private String confirmedPassword;
 	
 	// Constructor
-	public PasswordTest(MyApplet thisApplet, int aNumber){
+	public PasswordTest(OurController thisApplet, int aNumber){
 		
 		this.anApplet = thisApplet;
 		
@@ -55,7 +55,7 @@ public class PasswordTest extends JPanel implements MyQuestion {
 		
 		// Adjust constraints for the panel
 	    layout.putConstraint(SpringLayout.WEST, buttonsPanel, 3, SpringLayout.WEST, this);
-	    layout.putConstraint(SpringLayout.NORTH, buttonsPanel, 470, SpringLayout.NORTH, this);
+	    layout.putConstraint(SpringLayout.NORTH, buttonsPanel, 700, SpringLayout.NORTH, this);
 		
 		// listener to take the user to the previous screen
 		returnButton.addActionListener(new ActionListener(){

@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 public class InfoTest extends JPanel implements MyQuestion {
 
 	// Applet object
-	private MyApplet anApplet;
+	private OurController aController;
 	
 	// Variable to hold screen number
 	int number;
@@ -42,10 +42,10 @@ public class InfoTest extends JPanel implements MyQuestion {
 	private JTextField ssnField;
 	
 	// Constructor
-	public InfoTest(MyApplet thisApplet, int aNumber){
+	public InfoTest(OurController thisController, int aNumber){
 
 		// Set the applet
-		this.anApplet = thisApplet;
+		this.aController = thisController;
 		
 		// Set the screen number
 		number = aNumber;
@@ -53,13 +53,17 @@ public class InfoTest extends JPanel implements MyQuestion {
 		// Set the layout
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
+        // Set Questions
         setQuestion();
         setAnswer();
         
+        // Set button
 		submitButton = new JButton("SUBMIT");
 		submitButton.addActionListener(new TextListener());
 		submitButton.setAlignmentX(CENTER_ALIGNMENT);
 		
+		
+		// Create fields for information
 		add(Box.createRigidArea(new Dimension(10,500/6)));
         add(nameLabel);
         add(nameField);
@@ -85,29 +89,34 @@ public class InfoTest extends JPanel implements MyQuestion {
 	public Boolean isCorrect(){
 		
         String name = nameField.getText();
-//        String birthday = birthdayField.getText();
+        String birthday = birthdayField.getText();
         String email = emailField.getText();
-//        String address = addressField.getText();
-//        String phone = phoneField.getText();
-//        String ssn = ssnField.getText();
+        String address = addressField.getText();
+        String phone = phoneField.getText();
+        String ssn = ssnField.getText();
         
+        
+        // if the required info is entered
         if(!name.equals("") && !email.equals("")){
         	
         	return true;
         	
         }else{
         	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
-        	JOptionPane.showMessageDialog(anApplet,
+        	JOptionPane.showMessageDialog(aController,
         		    "Please provide some information before proceeding.",
         		    "Error",
         		    JOptionPane.ERROR_MESSAGE);
+
+    		return false;
         }
-		
-		return false;
+	
 	}
 	
+	// Set Answer
 	public void setAnswer(){
 		
+		// Set fields for user to enter info into
 		nameField = new JTextField(20);
 		birthdayField = new JTextField(20);
 		emailField = new JTextField(20);
@@ -115,6 +124,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 		phoneField = new JTextField(20);
 		ssnField = new JTextField(20);
 		
+		// Set dimensions of fields
 		nameField.setMaximumSize(new Dimension(300,30));
 		birthdayField.setMaximumSize(new Dimension(300,30));
 		emailField.setMaximumSize(new Dimension(300,30));
@@ -124,17 +134,19 @@ public class InfoTest extends JPanel implements MyQuestion {
 		
 	}
 	
+	// Set Question
 	public void setQuestion(){
 		
+		// Set labels
         nameLabel = new JLabel("*Name: ");
 		birthdayLabel = new JLabel("Birthday:");
 		emailLabel = new JLabel("*Email: ");
 		addressLabel = new JLabel("Address: ");
 		phoneLabel = new JLabel("Phone number: ");
 		ssnLabel = new JLabel("Social security number: ");
-		
 		required = new JLabel("* Required information");
 		
+		// Align elements
 		nameLabel.setAlignmentX(CENTER_ALIGNMENT);
 		birthdayLabel.setAlignmentX(CENTER_ALIGNMENT);
 		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -145,6 +157,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 		
 	}
 	
+	// Listener takes you to the next panel
 	class TextListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
@@ -153,7 +166,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 			
 			if (isInfoCorrect){
 								
-				anApplet.showNextTest(number);				
+				aController.showNextTest(number);				
 			}
 		}		
 	}	

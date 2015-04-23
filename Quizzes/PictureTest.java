@@ -15,7 +15,7 @@ import javax.swing.*;
 public class PictureTest extends JPanel {
     
 	// Applet object
-	private MyApplet anApplet;
+	private OurController anApplet;
 	
 	// Variable to hold screen number
 	int number;
@@ -40,7 +40,7 @@ public class PictureTest extends JPanel {
 	Icon icon2 = null;
 	Icon icon3 = null;
     
-    public PictureTest(MyApplet thisApplet, int aNumber) {
+    public PictureTest(OurController thisApplet, int aNumber) {
      
 //REFERENCES:
    	 //http://stackoverflow.com/questions/15311316/how-to-put-two-components-to-a-jpanel-with-borderlayout
@@ -65,7 +65,7 @@ public class PictureTest extends JPanel {
 			try {
 			
 				//1st Prof Pic Button
-				buttonIcon = ImageIO.read(new File("/Users/gerrythiers/Pictures/frat1.jpg"));
+				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/BunnyNo1.jpg"));
 				img1 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
 				picB1 = new JButton(new ImageIcon(img1));
 				icon1 = new ImageIcon(img1);
@@ -74,7 +74,7 @@ public class PictureTest extends JPanel {
 	     	    picB1.setSize(100, 150);
 	        
 	     	    //2nd Prof Pic Button   
-				buttonIcon = ImageIO.read(new File("/Users/gerrythiers/Pictures/ProPicture.jpg"));
+				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/Llama.jpg"));
 				img2 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
 				picB2 = new JButton(new ImageIcon(img2));
 				icon2 = new ImageIcon(img2);
@@ -82,7 +82,7 @@ public class PictureTest extends JPanel {
 	     	    picB2.setContentAreaFilled(false);
 	     	    
 	     	    //3rd Prof Pic Button
-				buttonIcon = ImageIO.read(new File("/Users/gerrythiers/Pictures/DrunkGirl.jpg"));
+				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/Pig.jpg"));
 				img3 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
 				picB3 = new JButton(new ImageIcon(img3));
 				icon3 = new ImageIcon(img3);
@@ -136,7 +136,7 @@ public class PictureTest extends JPanel {
            		//other two pictures to their original profile picture
            		BufferedImage buttonIcon;
         		try {
-        			buttonIcon = ImageIO.read(new File("/Users/gerrythiers/Pictures/checkmark.png"));
+        			buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/Otter.jpg"));
         			Image img4 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
        				final Icon icon4 = new ImageIcon(img4);
        				picB1.setIcon(icon4);
@@ -167,7 +167,7 @@ public class PictureTest extends JPanel {
         		
          		BufferedImage buttonIcon;
     			try {
-    				buttonIcon = ImageIO.read(new File("/Users/gerrythiers/Pictures/checkmark.png"));
+    				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/Camel.jpg"));
     				Image img4 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
     				final Icon icon1 = new ImageIcon(img4);
     				picB2.setIcon(icon1);
@@ -198,7 +198,7 @@ public class PictureTest extends JPanel {
         		
          		BufferedImage buttonIcon;
     			try {
-    				buttonIcon = ImageIO.read(new File("/Users/gerrythiers/Pictures/checkmark.png"));
+    				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/Otter.jpg"));
     				Image img4 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
     				final Icon icon1 = new ImageIcon(img4);
     				picB3.setIcon(icon1);

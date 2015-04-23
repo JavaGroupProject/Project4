@@ -6,10 +6,10 @@ public class Results extends JPanel{
 
 	// Applet object
 	@SuppressWarnings("unused")
-	private MyApplet anApplet;
+	private OurController anApplet;
 	
 	// Constructor
-	public Results(MyApplet thisApplet) {
+	public Results(OurController thisApplet) {
 		
 		// Pass in the frame
 		this.anApplet = thisApplet;
