@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
@@ -26,13 +27,14 @@ public class Canvas extends JPanel {
 	
 	// Store all of the elements that will appear on the canvas
 	private JTextArea status;
-	private JPanel newsfeedPanel;
 	private JButton statusButton;
 	private JScrollPane newsfeedScrollPane;
 	private JPanel privacyPanel;
 	private JPanel infoPanel;
 	private JPanel friendsPanel;
 	private JPanel picturesPanel;
+	
+	private Newsfeed newsfeed;
 	
 	// Constructor
 	public Canvas(MyApplet thisApplet){
@@ -73,14 +75,13 @@ public class Canvas extends JPanel {
         
         add(statusButton);
         
-        
-        // create the panel for the newsfeed
-		newsfeedPanel = new JPanel();
-		newsfeedPanel.setLayout(new BoxLayout(newsfeedPanel, BoxLayout.Y_AXIS));
-		newsfeedPanel.setBackground(Color.WHITE);
+        // create a newsfeed object
+		newsfeed = new Newsfeed(this);
 		
 		// create a scroll pane for the newsfeed
-		newsfeedScrollPane = new JScrollPane(newsfeedPanel);
+		newsfeedScrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+											 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		newsfeedScrollPane.setViewportView(newsfeed);
 		newsfeedScrollPane.setPreferredSize(new Dimension(360,600));
 		
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, newsfeedScrollPane,0,SpringLayout.HORIZONTAL_CENTER, this);
@@ -167,29 +168,15 @@ public class Canvas extends JPanel {
 			// only post if there is actually text in the post
 			if (!postText.equals("")){
 				
-				JTextArea post = new JTextArea();
-				post.setText(postText);
-				
-				post.setEditable(false);
-				post.setLineWrap(true);
-				post.setWrapStyleWord(true);
-				JScrollPane scroll = new JScrollPane(post);
-				scroll.setMaximumSize(new Dimension(340, 50));
-				scroll.setMinimumSize(new Dimension(340, 50));
-				scroll.setPreferredSize(new Dimension(340, 50));
-				newsfeedPanel.add(scroll, 0);
-				
-				//newsfeedPanel.add(new JLabel(status.getText()), 0);
-				
+				// call the addPost method from the Newsfeed class
+				newsfeed.addPost(postText);
+					
+				newsfeed.addPicturePost();
 				// http://stackoverflow.com/questions/15798532/how-to-clear-jtextarea
 				status.setText(null);
 				status.revalidate();
 				status.repaint();
 				
-				newsfeedPanel.revalidate();
-				newsfeedPanel.repaint();
-				
-				//newsfeedScrollPane.setViewportView(newsfeedPanel);
 				
 			}
 			
