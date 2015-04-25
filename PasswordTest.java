@@ -1,34 +1,72 @@
-import java.awt.CardLayout;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.SpringLayout;
 
-public class PasswordTest extends JPanel implements InterfaceTest {
+@SuppressWarnings("serial")
+public class PasswordTest extends JPanel implements MyQuestion {
 
-	private CardTest cardtest;
+	// Applet object
+	private MyApplet anApplet;
+	
+	// Layout
 	private SpringLayout layout;
+	
+	// Variable to hold screen number
+	int number;
+	
+	// Button
 	private JButton submitButton;
+	private JButton returnButton = new JButton("BACK");
+	
+	// Fields
 	private JPasswordField passwordField;
 	private JPasswordField confirmField;
+	
+	// Labels
 	private JLabel passwordLabel;
 	private JLabel confirmLabel;
+	
+	// Strings
 	private String password;
 	private String confirmedPassword;
 	
-	public PasswordTest(CardTest cardtest){
+	// Constructor
+	public PasswordTest(MyApplet thisApplet, int aNumber){
 		
-		this.cardtest = cardtest;
+		this.anApplet = thisApplet;
+		
+		number = aNumber;
 		
 		layout = new SpringLayout();
         setLayout(layout);
+        
+    	// Add button
+		JPanel buttonsPanel = new JPanel(new BorderLayout());
+		buttonsPanel.setBackground(Color.WHITE);
+		buttonsPanel.add(returnButton, BorderLayout.WEST);
+		add(buttonsPanel);
+		
+		// Adjust constraints for the panel
+	    layout.putConstraint(SpringLayout.WEST, buttonsPanel, 3, SpringLayout.WEST, this);
+	    layout.putConstraint(SpringLayout.NORTH, buttonsPanel, 470, SpringLayout.NORTH, this);
+		
+		// listener to take the user to the previous screen
+		returnButton.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		    	anApplet.showNextLesson(4);
+		    }
+		});
 		
         setQuestion();
         setAnswer();
-        		
 	}
 	
 	class TextListener implements ActionListener {
@@ -43,33 +81,61 @@ public class PasswordTest extends JPanel implements InterfaceTest {
 	        
 	        if (isGoodPassword){
 	        	
-				CardLayout cardLayout = cardtest.getCardLayout();
-				cardLayout.show(cardtest.getCards(), "card1");
-	        	
+				anApplet.showNextTest(number);
 	        }
-	        
-	        // otherwise should send to error page
-			
 		}
-		
 	}
 	
 	public void getAnswer(){
 		// this is done by the ActionListener
 	}
 	
-	// need to add more testing here
-	public Boolean isCorrect(){
-		if (password.equals(confirmedPassword)){
-			
-			if (password.length() >= 8){
-				return true;
-			}
-			
-		}
-		
-		return false;
-	}
+    public Boolean isCorrect(){
+        
+        // check if the passwords match
+        if (password.equals(confirmedPassword)){
+            
+            // check if password is long enough
+            if (password.length() >= 8){
+                
+                boolean includesSymbol = false;
+                boolean includesNumber = false;
+                boolean includesUpperCase = false;
+                boolean includesLowerCase = false;
+                
+                // check if password contains a symbol, number, upper case letter, and lower case letter
+                for (int i = 0; i < password.length(); i++){
+                    
+                    char thisChar = password.charAt(i);
+                    
+                    // symbols
+                    if ((thisChar >= 32 && thisChar <= 47) || (thisChar >= 58 && thisChar <= 64) ||
+                        (thisChar >= 91 && thisChar <= 96) || (thisChar >= 123 && thisChar <= 126)){
+                        includesSymbol = true;
+                    }
+                    // numbers
+                    else if (thisChar >= 48 && thisChar <= 57){
+                        includesNumber = true;
+                    }
+                    // upper case letters
+                    else if (thisChar >= 65 && thisChar <= 90){
+                        includesUpperCase = true;
+                    }
+                    // lower case letters
+                    else {
+                        includesLowerCase = true;
+                    }
+                    
+                }
+                
+                return includesSymbol && includesNumber && includesUpperCase && includesLowerCase;
+                
+            }	
+            
+        }
+        
+        return false;
+    }
 	
 	public void setAnswer(){
 	        
