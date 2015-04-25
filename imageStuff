@@ -1,0 +1,8 @@
+// https://docs.oracle.com/javase/tutorial/uiswing/components/applet.html#images
+// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
+// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html#applet
+		
+// picture is in the bin file for the project
+// also works to use Canvas.class here
+URL imageURL = MyApplet.class.getResource("picture.png");
+ImageIcon image = new ImageIcon(imageURL);
