@@ -54,14 +54,15 @@ public class Canvas extends JPanel {
         setLayout(springLayout);
 		
         // create the text area for posting a status
-        status = new JTextArea(3, 30);
+        status = new JTextArea(4, 26);
+        //status.setSize(new Dimension(320, 100));
         status.setEditable(true);
         status.setLineWrap(true);
         status.setWrapStyleWord(true);
         JScrollPane statusScrollPane = new JScrollPane(status);
         
         springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, statusScrollPane,0,SpringLayout.HORIZONTAL_CENTER, this);
-        springLayout.putConstraint(SpringLayout.NORTH, statusScrollPane, 10, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.NORTH, statusScrollPane, 20, SpringLayout.NORTH, this);
                 
         add(statusScrollPane);
         
@@ -82,10 +83,10 @@ public class Canvas extends JPanel {
 		newsfeedScrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 											 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		newsfeedScrollPane.setViewportView(newsfeed);
-		newsfeedScrollPane.setPreferredSize(new Dimension(360,600));
+		newsfeedScrollPane.setPreferredSize(new Dimension(320,605));
 		
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, newsfeedScrollPane,0,SpringLayout.HORIZONTAL_CENTER, this);
-        springLayout.putConstraint(SpringLayout.NORTH, newsfeedScrollPane, 100, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.NORTH, newsfeedScrollPane, 5, SpringLayout.SOUTH, statusButton);
 		
 		add(newsfeedScrollPane);
         
@@ -95,31 +96,31 @@ public class Canvas extends JPanel {
         
         // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
         Image img = profpic.getImage();
-        Image newimg = img.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
         profpic = new ImageIcon(newimg);
         
         JLabel profpicLabel = new JLabel(profpic);
-        profpicLabel.setSize(new Dimension(150,150));
+        profpicLabel.setSize(new Dimension(200,200));
         
-        springLayout.putConstraint(SpringLayout.EAST, profpicLabel, -10,SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, profpicLabel, 10, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.EAST, profpicLabel, -70,SpringLayout.WEST, statusScrollPane);
+        springLayout.putConstraint(SpringLayout.NORTH, profpicLabel, 20, SpringLayout.NORTH, this);
         
         add(profpicLabel);
         
 		privacyPanel = new JPanel();
-		privacyPanel.setPreferredSize(new Dimension(160, 250));
+		privacyPanel.setPreferredSize(new Dimension(300, 235));
 		privacyPanel.setBackground(Color.WHITE);
 		
 		privacyPanel.add(new JLabel("Privacy Settings"), BorderLayout.CENTER);
 		
-		springLayout.putConstraint(SpringLayout.EAST, privacyPanel, -10, SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, privacyPanel, 10, SpringLayout.SOUTH, profpicLabel);
+		springLayout.putConstraint(SpringLayout.EAST, privacyPanel, -20, SpringLayout.WEST, statusScrollPane);
+        springLayout.putConstraint(SpringLayout.NORTH, privacyPanel, 20, SpringLayout.SOUTH, profpicLabel);
 		
         add(privacyPanel);
         
 		infoPanel = new JPanel();
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-		infoPanel.setPreferredSize(new Dimension(160, 250));
+		infoPanel.setPreferredSize(new Dimension(300, 235));
 		infoPanel.setBackground(Color.WHITE);
 		
 		infoPanel.add(new JLabel("Personal info:"));
@@ -128,30 +129,30 @@ public class Canvas extends JPanel {
 		infoPanel.add(new JLabel("Birthday"));
 		infoPanel.add(new JLabel("etc."));
 		
-		springLayout.putConstraint(SpringLayout.EAST, infoPanel, -10, SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, infoPanel, 10, SpringLayout.SOUTH, privacyPanel);
+		springLayout.putConstraint(SpringLayout.EAST, infoPanel, -20, SpringLayout.WEST, statusScrollPane);
+        springLayout.putConstraint(SpringLayout.NORTH, infoPanel, 20, SpringLayout.SOUTH, privacyPanel);
 		
         add(infoPanel);
         
 		friendsPanel = new JPanel();
-		friendsPanel.setPreferredSize(new Dimension(160, 350));
+		friendsPanel.setPreferredSize(new Dimension(300, 345));
 		friendsPanel.setBackground(Color.WHITE);
 		
 		friendsPanel.add(new JLabel("Friends"), BorderLayout.CENTER);
 		
-		springLayout.putConstraint(SpringLayout.WEST, friendsPanel, 10, SpringLayout.EAST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, friendsPanel, 20, SpringLayout.EAST, statusScrollPane);
+        springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 20, SpringLayout.NORTH, this);
 		
         add(friendsPanel);
         
 		picturesPanel = new JPanel();
-		picturesPanel.setPreferredSize(new Dimension(160, 300));
+		picturesPanel.setPreferredSize(new Dimension(300, 345));
 		picturesPanel.setBackground(Color.WHITE);
 		
 		picturesPanel.add(new JLabel("Pictures"), BorderLayout.CENTER);
 		
-		springLayout.putConstraint(SpringLayout.WEST, picturesPanel, 10, SpringLayout.EAST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, picturesPanel, 10, SpringLayout.SOUTH, friendsPanel);
+		springLayout.putConstraint(SpringLayout.WEST, picturesPanel, 20, SpringLayout.EAST, statusScrollPane);
+        springLayout.putConstraint(SpringLayout.NORTH, picturesPanel, 20, SpringLayout.SOUTH, friendsPanel);
 		
         add(picturesPanel);
         
@@ -171,7 +172,7 @@ public class Canvas extends JPanel {
 				// call the addPost method from the Newsfeed class
 				newsfeed.addPost(postText);
 					
-				newsfeed.addPicturePost();
+				//newsfeed.addPicturePost();
 				// http://stackoverflow.com/questions/15798532/how-to-clear-jtextarea
 				status.setText(null);
 				status.revalidate();
