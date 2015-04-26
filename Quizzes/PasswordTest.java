@@ -1,12 +1,9 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +21,10 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	// Image for background
 	private Image backgroundImage;
 	
+	// Get image URLs
+	URL submitURL = OurController.class.getResource("Submit Button.png");
+	URL backgroundURL = OurController.class.getResource("PaswordQuiz-01.png");
+	
 	// Layout
 	private SpringLayout layout;
 	
@@ -32,7 +33,6 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	
 	// Button
 	private JButton submitButton;
-	private JButton returnButton = new JButton();
 	
 	// Fields
 	private JPasswordField passwordField;
@@ -58,29 +58,10 @@ public class PasswordTest extends JPanel implements MyQuestion {
         
 		// Set background
 		try {
-			backgroundImage = ImageIO.read(new File("/Users/Olivia/Desktop/Project4 graphics/png/PaswordQuiz-01.png"));
+			backgroundImage = ImageIO.read(backgroundURL);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        
-    	// Add button
-		JPanel buttonsPanel = new JPanel(new BorderLayout());
-		buttonsPanel.setBackground(Color.WHITE);
-		buttonsPanel.add(returnButton, BorderLayout.WEST);
-		add(buttonsPanel);
-		
-		// Adjust constraints for the panel
-	    layout.putConstraint(SpringLayout.WEST, buttonsPanel, 3, SpringLayout.WEST, this);
-	    layout.putConstraint(SpringLayout.NORTH, buttonsPanel, 700, SpringLayout.NORTH, this);
-		
-		// listener to take the user to the previous screen
-		returnButton.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	anApplet.showNextLesson(4);
-		    }
-		});
 		
         setQuestion();
         setAnswer();
@@ -98,7 +79,7 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	        
 	        if (isGoodPassword){
 	        	
-				anApplet.showFriendList();
+				anApplet.showNextTest(number);
 	        }
 		}
 	}
@@ -141,16 +122,12 @@ public class PasswordTest extends JPanel implements MyQuestion {
                     // lower case letters
                     else {
                         includesLowerCase = true;
-                    }
-                    
+                    }   
                 }
                 
                 return includesSymbol && includesNumber && includesUpperCase && includesLowerCase;
-                
-            }	
-            
-        }
-        
+            }	   
+        } 
         return false;
     }
 
@@ -182,10 +159,11 @@ public class PasswordTest extends JPanel implements MyQuestion {
 		submitButton = new JButton();
 		submitButton.addActionListener(new TextListener());
 		
+		// Add icon to submit button
 		submitButton.setOpaque(false);
 		submitButton.setBorderPainted(false);
 		submitButton.setContentAreaFilled(false);
-        ImageIcon submit = new ImageIcon("/Users/Olivia/Desktop/Project4 graphics/png/Submit Button.png");
+        ImageIcon submit = new ImageIcon(submitURL);
         submitButton.setIcon((submit));
 		
 		// change these to be in relation to each other

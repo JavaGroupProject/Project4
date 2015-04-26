@@ -1,10 +1,15 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -23,6 +28,12 @@ public class Canvas extends JPanel {
 	
 	// Store the spring layout
 	private SpringLayout springLayout;
+	
+	// Image for background
+	private Image backgroundImage;
+	
+	// Pull image url from bin
+	URL backgroundURL = OurController.class.getResource("Canvas-01.png");
 	
 	// Store all of the elements that will appear on the canvas
 	private JTextArea status;
@@ -50,17 +61,24 @@ public class Canvas extends JPanel {
 		// initialize the spring layout
 		springLayout = new SpringLayout();
         setLayout(springLayout);
+        
+        // Set background
+  		try {
+  			backgroundImage = ImageIO.read(backgroundURL);
+  		} catch (IOException e1) {
+  			// TODO Auto-generated catch block
+  			e1.printStackTrace();
+  		}
 		
         // create the text area for posting a status
         status = new JTextArea(4, 26);
-        //status.setSize(new Dimension(320, 100));
         status.setEditable(true);
         status.setLineWrap(true);
         status.setWrapStyleWord(true);
         JScrollPane statusScrollPane = new JScrollPane(status);
         
         springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, statusScrollPane,0,SpringLayout.HORIZONTAL_CENTER, this);
-        springLayout.putConstraint(SpringLayout.NORTH, statusScrollPane, 20, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.NORTH, statusScrollPane, 120, SpringLayout.NORTH, this);
                 
         add(statusScrollPane);
         
@@ -82,7 +100,7 @@ public class Canvas extends JPanel {
 		newsfeedScrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 											 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		newsfeedScrollPane.setViewportView(newsfeed);
-		newsfeedScrollPane.setPreferredSize(new Dimension(320,605));
+		newsfeedScrollPane.setPreferredSize(new Dimension(320,505));
 		
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, newsfeedScrollPane,0,SpringLayout.HORIZONTAL_CENTER, this);
         springLayout.putConstraint(SpringLayout.NORTH, newsfeedScrollPane, 5, SpringLayout.SOUTH, statusButton);
@@ -102,19 +120,19 @@ public class Canvas extends JPanel {
         
         // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
         Image img = profpic.getImage();
-        Image newimg = img.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
+        Image newimg = img.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
         profpic = new ImageIcon(newimg);
         
         JLabel profpicLabel = new JLabel(profpic);
-        profpicLabel.setSize(new Dimension(200,200));
+        profpicLabel.setSize(new Dimension(150, 150));
         
-        springLayout.putConstraint(SpringLayout.EAST, profpicLabel, -70,SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, profpicLabel, 20, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.EAST, profpicLabel, -95,SpringLayout.WEST, statusScrollPane);
+        springLayout.putConstraint(SpringLayout.NORTH, profpicLabel, 120, SpringLayout.NORTH, this);
         
         add(profpicLabel);
         
 		privacyPanel = new JPanel();
-		privacyPanel.setPreferredSize(new Dimension(300, 235));
+		privacyPanel.setPreferredSize(new Dimension(300, 210));
 		privacyPanel.setBackground(Color.WHITE);
 		
 		privacyPanel.add(new JLabel("Privacy Settings"), BorderLayout.CENTER);
@@ -126,7 +144,7 @@ public class Canvas extends JPanel {
         
 		infoPanel = new JPanel();
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
-		infoPanel.setPreferredSize(new Dimension(300, 235));
+		infoPanel.setPreferredSize(new Dimension(300, 210));
 		infoPanel.setBackground(Color.WHITE);
 		
 		infoPanel.add(new JLabel("Personal info:"));
@@ -141,18 +159,18 @@ public class Canvas extends JPanel {
         add(infoPanel);
         
 		friendsPanel = new JPanel();
-		friendsPanel.setPreferredSize(new Dimension(300, 345));
+		friendsPanel.setPreferredSize(new Dimension(300, 295));
 		friendsPanel.setBackground(Color.WHITE);
 		
 		friendsPanel.add(new JLabel("Friends"), BorderLayout.CENTER);
 		
 		springLayout.putConstraint(SpringLayout.WEST, friendsPanel, 20, SpringLayout.EAST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 20, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 120, SpringLayout.NORTH, this);
 		
         add(friendsPanel);
         
 		picturesPanel = new JPanel();
-		picturesPanel.setPreferredSize(new Dimension(300, 345));
+		picturesPanel.setPreferredSize(new Dimension(300, 295));
 		picturesPanel.setBackground(Color.WHITE);
 		
 		picturesPanel.add(new JLabel("Pictures"), BorderLayout.CENTER);
@@ -192,4 +210,10 @@ public class Canvas extends JPanel {
 			}
 		}		
 	}
+	
+	// Paint the background
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, this);
+    }
 }

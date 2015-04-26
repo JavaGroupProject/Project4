@@ -38,8 +38,7 @@ public class Friend {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}	
 	}
 
 	public String getName(){
@@ -56,8 +55,7 @@ public class Friend {
 			// (a valid index into the ArrayList)
 	  		int randomIndex = numberGenerator.nextInt(pictures.size());
 	  		
-	  		return pictures.get(randomIndex);
-		
+	  		return pictures.get(randomIndex);	
 	}
 	
 	public String getRandomMessage(){
@@ -93,10 +91,8 @@ public class Friend {
 				for (int i = 1; i < splitLine.length; i++){
 					messages.add(splitLine[i]);
 				}
-			}
-	    	
+			}	
 	    }
-
 	}
 
 	public void loadPictures() throws FileNotFoundException, IOException {
@@ -118,10 +114,8 @@ public class Friend {
 				for (int i = 1; i < splitLine.length; i++){
 					pictures.add(splitLine[i]);
 				}
-			}
-	    	
+			}	
 	    }
-
 	}
 	
 	/*public void loadMessages() throws FileNotFoundException, IOException {

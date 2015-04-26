@@ -90,12 +90,11 @@ public class PictureTest extends JPanel {
 	     	    picB3.setContentAreaFilled(false);
 	     	    
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
      		
 			//Adjusting layout and size of Panel for Prof Pics
-     		picPanel.setPreferredSize(new Dimension(1000, 1000));
+     		picPanel.setPreferredSize(new Dimension(750, 1000));
      		picPanel.setLayout(new GridLayout(1, 3));
      		
      		//Now actually add the buttons to the panel
@@ -144,7 +143,6 @@ public class PictureTest extends JPanel {
        	     	    picB1.setContentAreaFilled(false);
        	     	    picB1.setSize(100, 150);
        			} catch (IOException e1) {
-       				// TODO Auto-generated catch block
        				e1.printStackTrace();
        			} 		
             	
@@ -175,7 +173,6 @@ public class PictureTest extends JPanel {
     	     	    picB2.setContentAreaFilled(false);
     	     	    picB2.setSize(100, 150);
     			} catch (IOException e1) {
-    				// TODO Auto-generated catch block
     				e1.printStackTrace();
     			} 		
         		
@@ -206,7 +203,6 @@ public class PictureTest extends JPanel {
     	     	    picB3.setContentAreaFilled(false);
     	     	    picB3.setSize(100, 150);
     			} catch (IOException e1) {
-    				// TODO Auto-generated catch block
     				e1.printStackTrace();
     			} 		
         		

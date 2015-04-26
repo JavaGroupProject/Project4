@@ -3,12 +3,12 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
-
+import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +25,9 @@ public class InfoTest extends JPanel implements MyQuestion {
 	
 	// Variable to hold screen number
 	int number;
+	
+	URL submitURL = OurController.class.getResource("Submit Button.png");
+	URL backgroundURL = OurController.class.getResource("InfoQuiz-01.png");
 	
 	// Image for background
 	private Image backgroundImage;
@@ -63,9 +66,8 @@ public class InfoTest extends JPanel implements MyQuestion {
         
         // Set background
  		try {
- 			backgroundImage = ImageIO.read(new File("/Users/Olivia/Desktop/Project4 graphics/png/InfoQuiz-01.png"));
+ 			backgroundImage = ImageIO.read(backgroundURL);
  		} catch (IOException e1) {
- 			// TODO Auto-generated catch block
  			e1.printStackTrace();
  		}
         
@@ -74,10 +76,16 @@ public class InfoTest extends JPanel implements MyQuestion {
         setAnswer();
         
         // Set button
-		submitButton = new JButton("SUBMIT");
+		submitButton = new JButton();
 		submitButton.addActionListener(new TextListener());
 		submitButton.setAlignmentX(CENTER_ALIGNMENT);
 		
+		// Set button icon
+		submitButton.setOpaque(false);
+		submitButton.setBorderPainted(false);
+		submitButton.setContentAreaFilled(false);
+		ImageIcon submit = new ImageIcon(submitURL);
+        submitButton.setIcon((submit));	
 		
 		// Create fields for information
 		add(Box.createRigidArea(new Dimension(10,250)));
@@ -94,8 +102,7 @@ public class InfoTest extends JPanel implements MyQuestion {
         add(ssnLabel);
         add(ssnField);
         add(submitButton);
-        add(required);
-		
+        add(required);	
 	}
 	
 	public void getAnswer(){
@@ -104,6 +111,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 	
 	public Boolean isCorrect(){
 		
+		// get the fields
         String name = nameField.getText();
         String birthday = birthdayField.getText();
         String email = emailField.getText();
@@ -126,7 +134,6 @@ public class InfoTest extends JPanel implements MyQuestion {
 
     		return false;
         }
-	
 	}
 	
 	// Set Answer
@@ -146,8 +153,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 		emailField.setMaximumSize(new Dimension(300,30));
 		addressField.setMaximumSize(new Dimension(300,30));
 		phoneField.setMaximumSize(new Dimension(300,30));
-		ssnField.setMaximumSize(new Dimension(300,30));
-		
+		ssnField.setMaximumSize(new Dimension(300,30));	
 	}
 	
 	// Set Question
@@ -169,8 +175,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 		addressLabel.setAlignmentX(CENTER_ALIGNMENT);
 		phoneLabel.setAlignmentX(CENTER_ALIGNMENT);
 		ssnLabel.setAlignmentX(CENTER_ALIGNMENT);
-		required.setAlignmentX(CENTER_ALIGNMENT);
-		
+		required.setAlignmentX(CENTER_ALIGNMENT);	
 	}
 	
 	// Listener takes you to the next panel
@@ -182,7 +187,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 			
 			if (isInfoCorrect){
 								
-				aController.showNextTest(number);				
+				aController.showCanvas();				
 			}
 		}		
 	}	
