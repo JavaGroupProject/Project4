@@ -1,8 +1,19 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -11,17 +22,49 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 public class Newsfeed extends JPanel {
 
 	private Canvas canvas;
 	
+	// variables to help generate posts on the newsfeed
+	private int newsfeedIndex = 0;
+	private final int NEWSFEED_OPTIONS = 4;
+	
+	// array list to store the friends that the user has chosen
+	// information should be generated from the friends quiz
+	private ArrayList<Friend> friends = new ArrayList<Friend>();
+	
+	// array list to store the text for all of the bad links
+	private ArrayList<String> badLinks = new ArrayList<String>();
+	
 	public Newsfeed(Canvas canvas){
+		
+		// TODO this is just to test that the friends class works
+		//Friend f = new Friend("Name", "profpic", 2, "location", 4);
+		friends.add(new Friend("Name", "picture.png", 1, "location1", 100));
+		friends.add(new Friend("Another Name", "image4.jpg", 2, "location2", 20));
+		
+		// adds a new picture post every 10 seconds
+		Timer timer = new Timer(10000, new timerListener());
+	    timer.start();
 		
 		// not sure if this is necessary
 		this.canvas = canvas;
 		
 		initNewsfeed();
+		
+		try {
+			readBadLinks();
+			//loadMessagesURL();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -32,6 +75,26 @@ public class Newsfeed extends JPanel {
 		
 		// set the background color to white
 		setBackground(Color.WHITE);
+		
+	}
+	
+	public void readBadLinks() throws FileNotFoundException, IOException {
+		
+		// http://www.tutorialspoint.com/javaexamples/applet_readfile.htm
+		// this version of the method reads from a file placed in bin
+		String line = null;
+		URL url = Canvas.class.getResource("badLinks.txt");
+	         
+	    InputStream in = url.openStream();
+	    BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+	    while((line = bf.readLine()) != null){
+	    	
+	    	// add text that says click here to the bad link
+	    	String newLink = line + "\nCLICK HERE";
+	    	
+	    	// add the complete text string to the bad links array
+	    	badLinks.add(newLink);
+	    }
 		
 	}
 	
@@ -69,12 +132,16 @@ public class Newsfeed extends JPanel {
 		
 	}
 	
-	public void addPicture(String caption){
+	public void addPicture(String caption, String picture){
 		
 		add(new JLabel("    "), 0);
 		
+		// also works to use MyApplet.class
+		URL imageURL = Canvas.class.getResource(picture);
+		ImageIcon image = new ImageIcon(imageURL);
+		
 		// need to figure out a better way to access the pictures
-        ImageIcon image = new ImageIcon("/Users/Zoe/Desktop/picture.png", "picture");
+        //ImageIcon image = new ImageIcon("/Users/Zoe/Desktop/picture.png", "picture");
         
         // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
         Image img = image.getImage();
@@ -90,6 +157,11 @@ public class Newsfeed extends JPanel {
         
 		if (!caption.equals("")){
 			addPost(caption);
+		}
+		else {
+			// revalidate and repaint so that the new post appears on the screen
+			revalidate();
+			repaint();
 		}
 		
 	}
@@ -164,5 +236,58 @@ public class Newsfeed extends JPanel {
 		repaint();
 		
 	}
-		
+	
+	// http://www.java2s.com/Tutorial/Java/0240__Swing/SwingTimers.htm
+	class timerListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+  			
+			// Create a random number generator
+  			// Citation: http://www.javapractices.com/topic/TopicAction.do?Id=62
+  			Random numberGenerator = new Random();
+  			// need to alternate between posts from friends and bad links
+  			// both can be with or without pictures
+  			switch(newsfeedIndex){
+  				case 0: // text and picture
+  					System.out.println("text and picture");
+  					
+			  		// generate a random number from 0 to the size of the friends list - 1 
+  					// (a valid index into the ArrayList)
+			  		int randomIndex = numberGenerator.nextInt(friends.size());
+			  			
+			  		String caption = friends.get(randomIndex).getName() + " posted a photo: ";
+			  		addPicture(caption, friends.get(randomIndex).getRandomPicture());
+			  		break;
+			  	case 1: // bad link
+			  		System.out.println("add bad link");
+			  		
+			  		// generate a random number from 0 to the size of the bad links list - 1 
+  					// (a valid index into the ArrayList)
+			  		int randomLink = numberGenerator.nextInt(badLinks.size());
+			  		
+			  		addLink(badLinks.get(randomLink));
+					break;
+		  		case 2: // text
+			  		System.out.println("add text");
+			  		
+			  		// generate a random number from 0 to the size of the friends list - 1 
+  					// (a valid index into the ArrayList)
+			  		int randomFriend = numberGenerator.nextInt(friends.size());
+			  		
+			  		String postText = friends.get(randomFriend).getName() + ": " 
+			  						  + friends.get(randomFriend).getRandomMessage();
+			  		addPost(postText);
+			  		break;
+			  	case 3: // ad?
+			  		System.out.println("add something here");
+			  		break;
+			  	default: // error, should throw an exception
+			  		break;
+  			}
+  			
+  			// TODO cycle or generate a random number???
+  			newsfeedIndex = (newsfeedIndex+1) % NEWSFEED_OPTIONS;
+
+		}
+	}
+	
 }

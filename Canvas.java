@@ -4,7 +4,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.net.URL;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class Canvas extends JPanel {
@@ -68,6 +67,7 @@ public class Canvas extends JPanel {
         
         
         // create the button to add the post to the newsfeed
+                
         statusButton = new JButton("POST");
         springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, statusButton,0,SpringLayout.HORIZONTAL_CENTER, this);
         springLayout.putConstraint(SpringLayout.NORTH, statusButton, 5, SpringLayout.SOUTH, statusScrollPane);
@@ -89,10 +89,17 @@ public class Canvas extends JPanel {
         springLayout.putConstraint(SpringLayout.NORTH, newsfeedScrollPane, 5, SpringLayout.SOUTH, statusButton);
 		
 		add(newsfeedScrollPane);
-        
+		
+		// https://docs.oracle.com/javase/tutorial/uiswing/components/applet.html#images
+		// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
+		// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html#applet
+		// picture is in bin file for the project
+		URL imageURL = MyApplet.class.getResource("picture.png");
+		ImageIcon profpic = new ImageIcon(imageURL);
+		
 		// create an image icon for the profile picture
 		// will need to change this
-        ImageIcon profpic = new ImageIcon("/Users/Zoe/Desktop/picture.png", "profile picture");
+        //ImageIcon profpic = new ImageIcon("/Users/Zoe/Desktop/picture.png", "profile picture");
         
         // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
         Image img = profpic.getImage();
@@ -169,10 +176,18 @@ public class Canvas extends JPanel {
 			// only post if there is actually text in the post
 			if (!postText.equals("")){
 				
+				// add to the postText so the user can tell that they posted the message
+				postText = "You: " + postText;
+				
 				// call the addPost method from the Newsfeed class
 				newsfeed.addPost(postText);
 					
 				//newsfeed.addPicturePost();
+				
+				//newsfeed.addPicture("Caption for the picture.", "picture.png");
+				
+				//newsfeed.addLink("Congrats, you just won a free car!\nCLICK HERE");
+				
 				// http://stackoverflow.com/questions/15798532/how-to-clear-jtextarea
 				status.setText(null);
 				status.revalidate();

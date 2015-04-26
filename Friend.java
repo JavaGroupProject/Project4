@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Friend {
 
@@ -41,6 +42,38 @@ public class Friend {
 		
 	}
 
+	public String getName(){
+		return name;
+	}
+		
+	public String getRandomPicture(){
+		
+			// Create a random number generator
+			// Citation: http://www.javapractices.com/topic/TopicAction.do?Id=62
+			Random numberGenerator = new Random();
+			
+	  		// generate a random number from 0 to the size of the pictures list - 1 
+			// (a valid index into the ArrayList)
+	  		int randomIndex = numberGenerator.nextInt(pictures.size());
+	  		
+	  		return pictures.get(randomIndex);
+		
+	}
+	
+	public String getRandomMessage(){
+		
+		// Create a random number generator
+		// Citation: http://www.javapractices.com/topic/TopicAction.do?Id=62
+		Random numberGenerator = new Random();
+		
+  		// generate a random number from 0 to the size of the pictures list - 1 
+		// (a valid index into the ArrayList)
+  		int randomIndex = numberGenerator.nextInt(messages.size());
+  		
+  		return messages.get(randomIndex);
+	
+}
+	
 	public void loadMessagesURL() throws FileNotFoundException, IOException {
 		
 		// http://www.tutorialspoint.com/javaexamples/applet_readfile.htm
@@ -85,11 +118,7 @@ public class Friend {
 		
 		// close the input file
 		reader.close();
-		
-		/*for (int i = 0; i < messages.size(); i++){
-			System.out.println(messages.get(i));
-		}*/
-		
+				
 	}
 	
 	public void loadPictures() throws FileNotFoundException, IOException {
@@ -120,10 +149,7 @@ public class Friend {
 		
 		// close the input file
 		reader.close();
-		
-		/*for (int i = 0; i < pictures.size(); i++){
-			System.out.println(pictures.get(i));
-		}*/
+
 	}
 	
 }
