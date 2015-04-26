@@ -1,7 +1,12 @@
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,6 +25,9 @@ public class InfoTest extends JPanel implements MyQuestion {
 	
 	// Variable to hold screen number
 	int number;
+	
+	// Image for background
+	private Image backgroundImage;
 	
 	// Button to submit
 	private JButton submitButton;
@@ -53,6 +61,14 @@ public class InfoTest extends JPanel implements MyQuestion {
 		// Set the layout
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
+        // Set background
+ 		try {
+ 			backgroundImage = ImageIO.read(new File("/Users/Olivia/Desktop/Project4 graphics/png/InfoQuiz-01.png"));
+ 		} catch (IOException e1) {
+ 			// TODO Auto-generated catch block
+ 			e1.printStackTrace();
+ 		}
+        
         // Set Questions
         setQuestion();
         setAnswer();
@@ -64,7 +80,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 		
 		
 		// Create fields for information
-		add(Box.createRigidArea(new Dimension(10,500/6)));
+		add(Box.createRigidArea(new Dimension(10,250)));
         add(nameLabel);
         add(nameField);
         add(birthdayLabel);
@@ -170,4 +186,10 @@ public class InfoTest extends JPanel implements MyQuestion {
 			}
 		}		
 	}	
+	
+	// Paint the background
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, this);
+    }
 }

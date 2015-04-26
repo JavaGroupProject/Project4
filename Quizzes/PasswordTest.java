@@ -1,8 +1,14 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,6 +21,9 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	// Applet object
 	private OurController anApplet;
 	
+	// Image for background
+	private Image backgroundImage;
+	
 	// Layout
 	private SpringLayout layout;
 	
@@ -23,7 +32,7 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	
 	// Button
 	private JButton submitButton;
-	private JButton returnButton = new JButton("BACK");
+	private JButton returnButton = new JButton();
 	
 	// Fields
 	private JPasswordField passwordField;
@@ -46,6 +55,14 @@ public class PasswordTest extends JPanel implements MyQuestion {
 		
 		layout = new SpringLayout();
         setLayout(layout);
+        
+		// Set background
+		try {
+			backgroundImage = ImageIO.read(new File("/Users/Olivia/Desktop/Project4 graphics/png/PaswordQuiz-01.png"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         
     	// Add button
 		JPanel buttonsPanel = new JPanel(new BorderLayout());
@@ -81,7 +98,7 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	        
 	        if (isGoodPassword){
 	        	
-				anApplet.showNextTest(number);
+				anApplet.showFriendList();
 	        }
 		}
 	}
@@ -90,16 +107,53 @@ public class PasswordTest extends JPanel implements MyQuestion {
 		// this is done by the ActionListener
 	}
 	
-	// need to add more testing here
+	
 	public Boolean isCorrect(){
-		if (password.equals(confirmedPassword)){
-			
-			if (password.length() >= 8){
-				return true;
-			}			
-		}
-		return false;
-	}
+		// check if the passwords match
+        if (password.equals(confirmedPassword)){
+            
+            // check if password is long enough
+            if (password.length() >= 8){
+                
+                boolean includesSymbol = false;
+                boolean includesNumber = false;
+                boolean includesUpperCase = false;
+                boolean includesLowerCase = false;
+                
+                // check if password contains a symbol, number, upper case letter, and lower case letter
+                for (int i = 0; i < password.length(); i++){
+                    
+                    char thisChar = password.charAt(i);
+                    
+                    // symbols
+                    if ((thisChar >= 32 && thisChar <= 47) || (thisChar >= 58 && thisChar <= 64) ||
+                        (thisChar >= 91 && thisChar <= 96) || (thisChar >= 123 && thisChar <= 126)){
+                        includesSymbol = true;
+                    }
+                    // numbers
+                    else if (thisChar >= 48 && thisChar <= 57){
+                        includesNumber = true;
+                    }
+                    // upper case letters
+                    else if (thisChar >= 65 && thisChar <= 90){
+                        includesUpperCase = true;
+                    }
+                    // lower case letters
+                    else {
+                        includesLowerCase = true;
+                    }
+                    
+                }
+                
+                return includesSymbol && includesNumber && includesUpperCase && includesLowerCase;
+                
+            }	
+            
+        }
+        
+        return false;
+    }
+
 	
 	public void setAnswer(){
 	        
@@ -125,8 +179,14 @@ public class PasswordTest extends JPanel implements MyQuestion {
 		
 		passwordLabel = new JLabel("Enter password: ");
 		confirmLabel = new JLabel("Confirm password: ");
-		submitButton = new JButton("SUBMIT");
+		submitButton = new JButton();
 		submitButton.addActionListener(new TextListener());
+		
+		submitButton.setOpaque(false);
+		submitButton.setBorderPainted(false);
+		submitButton.setContentAreaFilled(false);
+        ImageIcon submit = new ImageIcon("/Users/Olivia/Desktop/Project4 graphics/png/Submit Button.png");
+        submitButton.setIcon((submit));
 		
 		// change these to be in relation to each other
 		
@@ -144,5 +204,11 @@ public class PasswordTest extends JPanel implements MyQuestion {
         add(confirmLabel);
         
 	}
+	
+	// Paint the background
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, this);
+    }
 	
 }
