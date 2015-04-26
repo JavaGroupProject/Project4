@@ -74,7 +74,7 @@ public class Friend {
 	
 }
 	
-	public void loadMessagesURL() throws FileNotFoundException, IOException {
+	public void loadMessages() throws FileNotFoundException, IOException {
 		
 		// http://www.tutorialspoint.com/javaexamples/applet_readfile.htm
 		// this version of the method reads from a file placed in bin
@@ -84,13 +84,47 @@ public class Friend {
 	    InputStream in = url.openStream();
 	    BufferedReader bf = new BufferedReader(new InputStreamReader(in));
 	    while((line = bf.readLine()) != null){
-	    	System.out.println(line);
+	    	
+			// split the line into two separate strings on "#"
+			// Citation: http://docs.oracle.com/javase/tutorial/java/data/manipstrings.html
+			String [] splitLine = line.split("#");
+					
+			if (splitLine[0].equals(name)){
+				for (int i = 1; i < splitLine.length; i++){
+					messages.add(splitLine[i]);
+				}
+			}
+	    	
 	    }
 
+	}
+
+	public void loadPictures() throws FileNotFoundException, IOException {
 		
+		// http://www.tutorialspoint.com/javaexamples/applet_readfile.htm
+		// this version of the method reads from a file placed in bin
+		String line = null;
+		URL url = Canvas.class.getResource("friendPictureInfo.txt");
+	         
+	    InputStream in = url.openStream();
+	    BufferedReader bf = new BufferedReader(new InputStreamReader(in));
+	    while((line = bf.readLine()) != null){
+	    	
+			// split the line into two separate strings on "#"
+			// Citation: http://docs.oracle.com/javase/tutorial/java/data/manipstrings.html
+			String [] splitLine = line.split("#");
+					
+			if (splitLine[0].equals(name)){
+				for (int i = 1; i < splitLine.length; i++){
+					pictures.add(splitLine[i]);
+				}
+			}
+	    	
+	    }
+
 	}
 	
-	public void loadMessages() throws FileNotFoundException, IOException {
+	/*public void loadMessages() throws FileNotFoundException, IOException {
 		
 		String filename = "/Users/Zoe/Desktop/friendInfo.txt";
 		
@@ -150,6 +184,6 @@ public class Friend {
 		// close the input file
 		reader.close();
 
-	}
+	}*/
 	
 }
