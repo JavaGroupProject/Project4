@@ -26,6 +26,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 	// Variable to hold screen number
 	int number;
 	
+	// Get image URLs
 	URL submitURL = OurController.class.getResource("Submit Button.png");
 	URL backgroundURL = OurController.class.getResource("InfoQuiz-01.png");
 	
@@ -187,7 +188,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 			
 			if (isInfoCorrect){
 								
-				aController.showCanvas();				
+				aController.showNextTest(number);				
 			}
 		}		
 	}	
