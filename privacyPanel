@@ -1,5 +1,3 @@
-package InfoSecurity;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -80,58 +78,94 @@ public class PrivacySetting extends JPanel {
         
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy = 2;
         add(profilePicture, c);
         
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 1;
+        c.gridy = 2;
         add(profilePictureList, c);
+        
+        profilePictureList.addActionListener(
+        		new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        JComboBox combo = (JComboBox)e.getSource();
+                        String selection = (String)combo.getSelectedItem();
+                        String resultText = "Your profile picture will be visible to " + selection;
+                    }
+                }            
+        );
      
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 4;
         add(personalInformation, c);
         
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 2;
+        c.gridy = 4;
         add(personalInformationList, c);
+        
+        profilePictureList.addActionListener(
+        		new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        JComboBox combo = (JComboBox)e.getSource();
+                        String selection = (String)combo.getSelectedItem();
+                        String resultText = "Your personal information will be visible to " + selection;
+                    }
+                }            
+        );
      
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 3;
+        c.gridy = 6;
         add(photos, c);
         
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 3;
+        c.gridy = 6;
         add(photosList, c);
+        
+        profilePictureList.addActionListener(
+        		new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        JComboBox combo = (JComboBox)e.getSource();
+                        String selection = (String)combo.getSelectedItem();
+                        String resultText = "Your photos will be visible to " + selection;
+                    }
+                }            
+        );
         
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 8;
         add(friendList, c);
         
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 0.5;
         c.gridx = 1;
-        c.gridy = 4;
+        c.gridy = 8;
         add(friendListList, c);
         
-        /*add(photos, BorderLayout.LINE_START);
-        add(photosList);
-        add(friendList, BorderLayout.LINE_START);
-        add(friendListList);*/
+        profilePictureList.addActionListener(
+        		new ActionListener(){
+                    public void actionPerformed(ActionEvent e){
+                        JComboBox combo = (JComboBox)e.getSource();
+                        String selection = (String)combo.getSelectedItem();
+                        String resultText = "Your friend list will be visible to " + selection;
+                    }
+                }            
+        );
+        
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
-    }
- 
+    }  
+    
     /** Returns an ImageIcon, or null if the path was invalid. */
     protected static ImageIcon createImageIcon(String path) {
         java.net.URL imgURL = PrivacySetting.class.getResource(path);
