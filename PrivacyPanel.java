@@ -14,7 +14,7 @@ public class PrivacyPanel extends JPanel {
 	
 	private PrivacyPanel myPanel;
 	
-	private JLabel title;
+	//private JLabel title;
 	
 	private JLabel privacySetting;
 	
@@ -27,7 +27,7 @@ public class PrivacyPanel extends JPanel {
 		this.anApplet = thisApplet;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setPreferredSize(new Dimension(300, 60));
+		setPreferredSize(new Dimension(300, 45));
 		setBackground(Color.WHITE);
 		
 		init();
@@ -38,9 +38,9 @@ public class PrivacyPanel extends JPanel {
 	
 	public void init(){
 		
-		title = new JLabel("PRIVACY SETTING");
-		title.setAlignmentX(CENTER_ALIGNMENT);
-		add(title);
+		//title = new JLabel("PRIVACY SETTING");
+		//title.setAlignmentX(CENTER_ALIGNMENT);
+		//add(title);
 		
 		privacySetting = new JLabel(setting);
 		privacySetting.setAlignmentX(CENTER_ALIGNMENT);
@@ -55,7 +55,7 @@ public class PrivacyPanel extends JPanel {
 	
 	public void display(){
 		
-		add(title);
+		//add(title);
 		privacySetting.setText(setting);
 		add(privacySetting);
 		add(changeSetting);

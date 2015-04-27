@@ -207,6 +207,7 @@ public class Newsfeed extends JPanel {
             	
                 if (result == JOptionPane.OK_OPTION) {
                 	// TODO need to figure out what to do with this information/what to do if it is empty
+                	// set results boolean to true if all 3 of these fields aren't blank
                 	String name = nameField.getText();
                 	String email = emailField.getText();
                 	String address = addressField.getText();

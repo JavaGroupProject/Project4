@@ -1,5 +1,7 @@
 import java.awt.CardLayout;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 
@@ -110,14 +112,34 @@ public class MyApplet extends JApplet{
 	
 	// Set Strings for Panels
 	final static String WELCOME = "Welcome";
+	final static String CANVAS = "Canvas";
 	
+	// Initialize the canvas page
+	private Canvas myCanvas; // = new Canvas(this);
+	
+	private UserInfo user; //= new UserInfo();
+	
+	private ArrayList<Friend> friends = new ArrayList<Friend>();
 	
 	public MyApplet(){
+		
+		friends.add(new Friend("Name", "picture.png", 1, "location1", 100));
+		friends.add(new Friend("Another Name", "image4.jpg", 2, "location2", 20));
+		friends.add(new Friend("Name", "picture.png", 1, "location1", 100));
+		friends.add(new Friend("Another Name", "image4.jpg", 2, "location2", 20));
+		friends.add(new Friend("Name", "picture.png", 1, "location1", 100));
+		friends.add(new Friend("Another Name", "image4.jpg", 2, "location2", 20));
+		friends.add(new Friend("Name", "picture.png", 1, "location1", 100));
 		
 		cards = new JPanel(cardLayout);
 		
 		//Lesson lesson1 = new Lesson(this, 1, passwordLesson);
 		//Lesson lesson2 = new Lesson(this, 2, infoLesson);
+		
+		// this has to get created before myCanvas
+		user = new UserInfo();
+		
+		myCanvas = new Canvas(this);
 		
 		cards.add(myWelcome, WELCOME);
 		cards.add(lesson1, "lesson1");
@@ -126,18 +148,34 @@ public class MyApplet extends JApplet{
 		cards.add(lesson4, "lesson4");
 		cards.add(lesson5, "lesson5");
 		cards.add(lesson6, "lesson6");
+		cards.add(myCanvas, CANVAS);
 		
 		add(cards);
 		
+		
+				
+	}
+	
+	public UserInfo getUser(){
+		return user;
+	}
+	
+	public ArrayList<Friend> getFriends(){
+		return friends;
 	}
 	
 	public void showNextLesson(int number){
 		
 		// need to check if the page exists
 		number++;
-		String newCardName = "lesson" + number;
-		
-		cardLayout.show(cards, newCardName);
+		if (number == 7){
+			cardLayout.show(cards, CANVAS);
+		}
+		else {
+			String newCardName = "lesson" + number;
+			cardLayout.show(cards, newCardName);
+		}
+
 		
 	}
 	
@@ -157,7 +195,8 @@ public class MyApplet extends JApplet{
 	
 	public void showLesson1(){
 		
-		cardLayout.show(cards, "lesson1");
+		// TODO changed this so I can see the canvas page faster
+		cardLayout.show(cards, CANVAS);
 		
 	}
 	

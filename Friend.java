@@ -42,6 +42,10 @@ public class Friend {
 		
 	}
 
+	public String getProfilePicture(){
+		return profilePicture;
+	}
+	
 	public String getName(){
 		return name;
 	}

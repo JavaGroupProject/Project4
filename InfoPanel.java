@@ -17,7 +17,7 @@ public class InfoPanel extends JPanel {
 	
 	private InfoPanel myPanel;
 	
-	private JLabel title = new JLabel("PERSONAL INFO");
+	//private JLabel title = new JLabel("PERSONAL INFO");
 	private JLabel name;
 	private JLabel email;
 	private JLabel birthday = new JLabel("Birthday: ");
@@ -36,7 +36,7 @@ public class InfoPanel extends JPanel {
 		this.anApplet = thisApplet;
 		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setPreferredSize(new Dimension(300, 360));
+		setPreferredSize(new Dimension(300, 320));
 		setBackground(Color.WHITE);
 		
 		init();
@@ -52,7 +52,7 @@ public class InfoPanel extends JPanel {
 		email = new JLabel("Email: " + anApplet.getUser().getEmail());
 		addInfoButton = new JButton("Add Info");
 		addInfoButton.addActionListener(new ButtonListener());
-		title.setAlignmentX(CENTER_ALIGNMENT);
+		//title.setAlignmentX(CENTER_ALIGNMENT);
 		name.setAlignmentX(CENTER_ALIGNMENT);
 		email.setAlignmentX(CENTER_ALIGNMENT);
 		addInfoButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -64,7 +64,7 @@ public class InfoPanel extends JPanel {
 		creditCard.setAlignmentX(CENTER_ALIGNMENT);
 		school.setAlignmentX(CENTER_ALIGNMENT);
 		gradYear.setAlignmentX(CENTER_ALIGNMENT);
-		add(Box.createRigidArea(new Dimension(10,80)));
+		add(Box.createRigidArea(new Dimension(10,60)));
 		
 	}
 	
@@ -110,7 +110,7 @@ public class InfoPanel extends JPanel {
 
     	}
     	
-		add(title);
+		//add(title);
 		add(name);
 		add(email);
 		add(birthday);

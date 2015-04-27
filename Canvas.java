@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.ArrayList;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -44,6 +46,10 @@ public class Canvas extends JPanel {
 		anApplet.getUser().setProfilePicture("image1.jpg");
 		anApplet.getUser().setName("User Name");
 		anApplet.getUser().setEmail("user@email.com");
+		anApplet.getUser().addPicture("picture.png");
+		anApplet.getUser().addPicture("image1.jpg");
+		anApplet.getUser().addPicture("image2.jpg");
+		anApplet.getUser().addPicture("image3.jpg");
 		
 		initCanvas();
 		
@@ -128,33 +134,36 @@ public class Canvas extends JPanel {
 		privacyPanel.add(new JLabel("PRIVACY"), BorderLayout.CENTER);*/
 		
 		springLayout.putConstraint(SpringLayout.EAST, privacyPanel, -20, SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, privacyPanel, 20, SpringLayout.SOUTH, profpicLabel);
+        springLayout.putConstraint(SpringLayout.NORTH, privacyPanel, 40, SpringLayout.SOUTH, profpicLabel);
 		
         add(privacyPanel);
         
         infoPanel = new InfoPanel(anApplet);
 		
 		springLayout.putConstraint(SpringLayout.EAST, infoPanel, -20, SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, infoPanel, 20, SpringLayout.SOUTH, privacyPanel);
+        springLayout.putConstraint(SpringLayout.NORTH, infoPanel, 40, SpringLayout.SOUTH, privacyPanel);
 		
         add(infoPanel);
         
-		friendsPanel = new JPanel();
+        friendsPanel = new FriendPanel(anApplet);
+        
+		/*friendsPanel = new JPanel();
 		friendsPanel.setPreferredSize(new Dimension(300, 295));
 		friendsPanel.setBackground(Color.WHITE);
 		
-		friendsPanel.add(new JLabel("Friends"), BorderLayout.CENTER);
+		friendsPanel.add(new JLabel("Friends"), BorderLayout.CENTER);*/
 		
 		springLayout.putConstraint(SpringLayout.WEST, friendsPanel, 20, SpringLayout.EAST, statusScrollPane);
         springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 120, SpringLayout.NORTH, this);
 		
         add(friendsPanel);
         
-		picturesPanel = new JPanel();
+        picturesPanel = new PicturesPanel(anApplet, newsfeed);
+		/*picturesPanel = new JPanel();
 		picturesPanel.setPreferredSize(new Dimension(300, 295));
 		picturesPanel.setBackground(Color.WHITE);
 		
-		picturesPanel.add(new JLabel("Pictures"), BorderLayout.CENTER);
+		picturesPanel.add(new JLabel("Pictures"), BorderLayout.CENTER);*/
 		
 		springLayout.putConstraint(SpringLayout.WEST, picturesPanel, 20, SpringLayout.EAST, statusScrollPane);
         springLayout.putConstraint(SpringLayout.NORTH, picturesPanel, 20, SpringLayout.SOUTH, friendsPanel);

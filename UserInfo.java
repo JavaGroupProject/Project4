@@ -1,6 +1,7 @@
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -17,6 +18,15 @@ public class UserInfo {
 	private String creditCard = "";
 	private String school = "";
 	private String gradYear = "";
+	private ArrayList<String> pictures = new ArrayList<String>();
+	
+	public void addPicture(String picture){
+		pictures.add(picture);
+	}
+	
+	public ArrayList<String> getPictures(){
+		return pictures;
+	}
 	
 	public String getGender() {
 		return gender;
