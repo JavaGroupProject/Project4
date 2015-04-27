@@ -44,7 +44,11 @@ public class Friend {
 	public String getName(){
 		return name;
 	}
-		
+	
+	public String getProfilePicture(){
+		return profilePicture;
+	}
+	
 	public String getRandomPicture(){
 		
 			// Create a random number generator

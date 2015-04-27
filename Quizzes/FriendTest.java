@@ -4,8 +4,10 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -30,7 +32,7 @@ public class FriendTest extends JPanel implements MyQuestion {
 	Image friendImage6;
 
 	// Get image URLs
-	URL backgroundURL = OurController.class.getResource("InfoQuiz-01.png");
+	URL backgroundURL = OurController.class.getResource("FriendQuiz-01.png");
 	URL friend1URL = OurController.class.getResource("Friend1-01.png");
 	URL friend2URL = OurController.class.getResource("Friend2-01.png");
 	URL friend3URL = OurController.class.getResource("Friend3-01.png");
@@ -57,6 +59,9 @@ public class FriendTest extends JPanel implements MyQuestion {
 	Icon friendIcon4;
 	Icon friendIcon5;
 	Icon friendIcon6;
+	
+	//Array of Friend Objects
+	ArrayList<Friend> friendList = new ArrayList<Friend>();
 	
 	public FriendTest(OurController thisController, int aNumber) {
 		
@@ -97,9 +102,70 @@ public class FriendTest extends JPanel implements MyQuestion {
 		submitButton.addActionListener(new ActionListener(){
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		    	aController.showNextTest(number);
+		    	aController.showCanvas();
 		    }
 		});
+		
+		// Listener to take user to first screen of lesson
+		friendButton1.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		     	Friend friend1 = new Friend("Herbert Gruber", "Friend1-01.png", 0, "Jersey City NJ", 24);
+		     	aController.addFriend(friend1);
+		     	friendList.add(friend1);
+		    }
+		});
+		
+		// Listener to take user to first screen of lesson
+		friendButton2.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		     	Friend friend2 = new Friend("Charlie Scott", "Friend2-01.png", 0, "Naples FA", 34);
+		     	aController.addFriend(friend2);
+		     	friendList.add(friend2);
+		    }
+		});
+		
+		// Listener to take user to first screen of lesson
+		friendButton3.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		     	Friend friend3 = new Friend("Bernie McDool", "Friend3-01.png", 0, "Sand Diego CA", 42);
+		     	aController.addFriend(friend3);
+		     	friendList.add(friend3);
+		    }
+		});
+		
+		// Listener to take user to first screen of lesson
+		friendButton4.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		     	Friend friend4 = new Friend("Amy Parker", "Friend4-01.png", 45, "Derby CT", 35);
+		     	aController.addFriend(friend4);
+		     	friendList.add(friend4);
+		    }
+		});
+		
+		// Listener to take user to first screen of lesson
+		friendButton5.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		     	Friend friend5 = new Friend("Ben Connoly", "Friend5-01.png", 63, "Louisville KY", 37);
+		     	aController.addFriend(friend5);
+		     	friendList.add(friend5);
+		    }
+		});
+		
+		// Listener to take user to first screen of lesson
+		friendButton6.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		     	Friend friend6 = new Friend("Lisa Williams", "Friend6-01.png", 12, "Phoenix AZ", 74);
+		     	aController.addFriend(friend6);
+		     	friendList.add(friend6);
+		    }
+		});
+		
 	}
 
 	@Override

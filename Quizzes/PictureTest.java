@@ -1,46 +1,76 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class PictureTest extends JPanel {
+public class PictureTest extends JPanel implements MyQuestion {
+
+    // Applet object
+    private OurController aController;
+
+    // Variable to hold screen number
+    int number;
     
-	// Applet object
-	private OurController anApplet;
-	
-	// Variable to hold screen number
-	int number;
-	
-	private JLabel title;
+    // User object
+    UserInfo myUser;
+
+    // Image for background
+    private Image backgroundImage;
+
+    // JLabel and Scroll Pane
+    private JLabel title;
     private JScrollPane top;
     
     //Declare Buttons
-    JButton picB1; 
-    JButton picB2;
-    JButton picB3;
-	JButton forwardButton = new JButton("NEXT");
-	JButton returnButton = new JButton("BACK");
+    private JButton picture1; 
+    private JButton picture2;
+    private JButton picture3;
+    
+    private JButton submitButton = new JButton();
+	
+	// Add friend list images
+    private Image friendImage1;
+    private Image friendImage2;
+    private Image friendImage3;
+    private Image friendImage4;
+    private Image friendImage5;
+    private Image friendImage6;
+
+	// Get image URLs
+    private URL backgroundURL = OurController.class.getResource("PicQuiz-01.png");
+    private URL pic1URL = OurController.class.getResource("profPic1-01.png");
+    private URL pic2URL = OurController.class.getResource("profPic2-01.png");
+    private URL pic3URL = OurController.class.getResource("profPic3-01.png");
+    private URL pic1_2URL = OurController.class.getResource("profPic1-2-01.png");
+    private URL pic2_2URL = OurController.class.getResource("profPic2-2-01.png");
+    private URL pic3_2URL = OurController.class.getResource("profPic3-2-01.png");
+    private URL submitURL = OurController.class.getResource("Submit Button.png");
 	
 	//Declare Images
-	Image img1;
-	Image img2;
-	Image img3;
+    private Image img1;
+    private Image img2;
+    private Image img3;
+    private Image img1_2;
+    private Image img2_2;
+    private Image img3_2;
 	
-	//Declare Icons
-	Icon icon1 = null;
-	Icon icon2 = null;
-	Icon icon3 = null;
-    
-    public PictureTest(OurController thisApplet, int aNumber) {
+    private String finalPicture;
+    private String picString1 = "profPic3-01.png";
+    private String picString2 = "profPic3-01.png"; 
+    private String picString3 = "profPic3-01.png";
+	
+    public PictureTest(OurController thisController, int aNumber) {
      
 //REFERENCES:
    	 //http://stackoverflow.com/questions/15311316/how-to-put-two-components-to-a-jpanel-with-borderlayout
@@ -50,185 +80,184 @@ public class PictureTest extends JPanel {
      //http://stackoverflow.com/questions/4898584/java-using-an-image-as-a-button
      //http://stackoverflow.com/questions/2235569/add-and-remove-an-icon-on-a-jlabel
      //http://www.coderanch.com/t/342324/GUI/java/Changing-ImageIcon-JButton-click	
-    	
-    	// Set the applet
-		this.anApplet = thisApplet;
+
+    // Set the applet
+    this.aController = thisController;
+
+    // Set the screen number
+    number = aNumber;
+    
+    myUser = thisController.getUser();
 		
-		// Set the screen number
-		number = aNumber;
-    	
+        // Get images
+	    try{
+	    	//add background 
+	    	backgroundImage = ImageIO.read(backgroundURL);
+	    	
+	    	//add image button #1
+	    	img1 = ImageIO.read(pic1URL);
+	    	img2 = ImageIO.read(pic2URL); 
+	    	img3 = ImageIO.read(pic3URL);
+	    	
+	    	img1_2 = ImageIO.read(pic1_2URL);
+	    	img2_2 = ImageIO.read(pic2_2URL); 
+	    	img3_2 = ImageIO.read(pic3_2URL);
+	    	
+	    	
+	    	
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    }
+
+        // Set Questions
+        setQuestion();
+        setAnswer();
+        
+    	//Add Button
+    	submitButton = new JButton();
+    	submitButton.setOpaque(false);
+    	submitButton.setBorderPainted(false);
+    	submitButton.setContentAreaFilled(false);
+    	ImageIcon submit = new ImageIcon(submitURL);
+    	submitButton.setIcon(submit);
+		add(submitButton, BorderLayout.CENTER);
+
+        // Listener to take user to first screen of lesson
+        submitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            	myUser.setProfilePicture(finalPicture);
+            	
+            	aController.revalidate();
+            	
+                aController.showNextTest(number);
+            }
+        });			
+	}
+	
+	@Override
+	public void getAnswer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean isCorrect() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void setAnswer() {
+	
     	//add panel for image buttons
     	JPanel picPanel = new JPanel();
-     		
-    	//Add Buttons
-     		BufferedImage buttonIcon;
-			try {
 			
-				//1st Prof Pic Button
-				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/BunnyNo1.jpg"));
-				img1 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
-				picB1 = new JButton(new ImageIcon(img1));
-				icon1 = new ImageIcon(img1);
-	     	    picB1.setBorder(BorderFactory.createEmptyBorder());
-	     	    picB1.setContentAreaFilled(false);
-	     	    picB1.setSize(100, 150);
-	        
-	     	    //2nd Prof Pic Button   
-				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/Llama.jpg"));
-				img2 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
-				picB2 = new JButton(new ImageIcon(img2));
-				icon2 = new ImageIcon(img2);
-	     	    picB2.setBorder(BorderFactory.createEmptyBorder());
-	     	    picB2.setContentAreaFilled(false);
+    	//Add Button
+    	picture1 = new JButton();
+    	picture1.setOpaque(false);
+    	picture1.setBorderPainted(false);
+    	picture1.setContentAreaFilled(false);
+    	ImageIcon pic1 = new ImageIcon(img1);
+    	picture1.setIcon(pic1);
+    	
+    	//Add Button
+    	picture2 = new JButton();
+    	picture2.setOpaque(false);
+    	picture2.setBorderPainted(false);
+    	picture2.setContentAreaFilled(false);
+    	ImageIcon pic2 = new ImageIcon(img2);
+    	picture2.setIcon(pic2);
 	     	    
-	     	    //3rd Prof Pic Button
-				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/Pig.jpg"));
-				img3 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
-				picB3 = new JButton(new ImageIcon(img3));
-				icon3 = new ImageIcon(img3);
-	     	    picB3.setBorder(BorderFactory.createEmptyBorder());
-	     	    picB3.setContentAreaFilled(false);
-	     	    
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-     		
-			//Adjusting layout and size of Panel for Prof Pics
-     		picPanel.setPreferredSize(new Dimension(750, 1000));
-     		picPanel.setLayout(new GridLayout(1, 3));
-     		
-     		//Now actually add the buttons to the panel
-     		picPanel.add(picB1); 
-     		picPanel.add(picB2); 
-     		picPanel.add(picB3);
+    	//Add Button
+    	picture3 = new JButton();
+    	picture3.setOpaque(false);
+    	picture3.setBorderPainted(false);
+    	picture3.setContentAreaFilled(false);
+    	ImageIcon pic3 = new ImageIcon(img3);
+    	picture3.setIcon(pic3);
+	
+		//Adjusting layout and size of Panel for Prof Pics
+ 		picPanel.setPreferredSize(new Dimension(500, 500));
+ 		picPanel.setLayout(new GridLayout(1, 3));
+ 		picPanel.setOpaque(false);
+ 		
+ 		//Now actually add the buttons to the panel
+ 		picPanel.add(picture1); 
+ 		picPanel.add(picture2); 
+ 		picPanel.add(picture3);
 
-     		//Add picPanel to frame
-     		add(picPanel, BorderLayout.CENTER);
-     		
-     		//add label at top of screen to give directions
-     		title = new JLabel("Click on the image that you think would be an"
-     				+ " appropiate profile picture for your social"
-     				+ " media account.", SwingConstants.CENTER);
-     		
-     		//Add title label to frame
-     		top = new JScrollPane(title);
-     		add(top, BorderLayout.PAGE_START);
-     		
-     		//add panel at bottom of page for return and forward buttons
-    		JPanel buttonsPanel = new JPanel(new BorderLayout());
-    		buttonsPanel.setBackground(Color.WHITE);
-    		buttonsPanel.add(returnButton, BorderLayout.WEST);
-    		buttonsPanel.add(forwardButton, BorderLayout.EAST);
-
-    		//Add Return/Forward Buttons Panel to frame
-    		add(buttonsPanel,BorderLayout.PAGE_END);
-     	
-    	//Action Listeners for 3 image buttons
-    	picB1.addActionListener(new ActionListener() {
+ 		//Add picPanel to frame
+ 		add(picPanel, BorderLayout.CENTER);
+ 		
+    	// Action Listeners for 3 image buttons
+    	picture1.addActionListener(new ActionListener() {
             @Override
            	public void actionPerformed(ActionEvent e) {
-           		//Display image on panel and record image selected as profPic
-           		picB1.setIcon(null);
-           		picB1.revalidate();
             	
-           		//When clicked, change image of button to check mark and change
-           		//other two pictures to their original profile picture
-           		BufferedImage buttonIcon;
-        		try {
-        			buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/Otter.jpg"));
-        			Image img4 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
-       				final Icon icon4 = new ImageIcon(img4);
-       				picB1.setIcon(icon4);
-       	     	    picB1.setBorder(BorderFactory.createEmptyBorder());
-       	     	    picB1.setContentAreaFilled(false);
-       	     	    picB1.setSize(100, 150);
-       			} catch (IOException e1) {
-       				e1.printStackTrace();
-       			} 		
+           		//When clicked, change image of button and change
+           		//other two pictures to their original profile picture 
+           		ImageIcon pic1_2 = new ImageIcon(img1_2);
+   				picture1.setIcon(pic1_2);
+   				picture1.revalidate();
+   				finalPicture = picString1;
             	
         		//Set other two buttons back to their original image icons
-           		picB2.setIcon(icon2);
-           		picB2.revalidate();
+           		picture2.setIcon(pic2);
+           		picture2.revalidate();
            		
-           		picB3.setIcon(icon3);
-           		picB3.revalidate();
+           		picture3.setIcon(pic3);
+           		picture3.revalidate();
         		
             }
         });   		
     		
-        picB2.addActionListener(new ActionListener() {
+        picture2.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		//Display image on panel and record image selected as profPic
-        		picB2.setIcon(null);
-        		picB2.revalidate();
         		
-         		BufferedImage buttonIcon;
-    			try {
-    				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/animals/Camel.jpg"));
-    				Image img4 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
-    				final Icon icon1 = new ImageIcon(img4);
-    				picB2.setIcon(icon1);
-    	     	    picB2.setBorder(BorderFactory.createEmptyBorder());
-    	     	    picB2.setContentAreaFilled(false);
-    	     	    picB2.setSize(100, 150);
-    			} catch (IOException e1) {
-    				e1.printStackTrace();
-    			} 		
-        		
-           		picB1.setIcon(icon1);
-           		picB1.revalidate();
+    	    	ImageIcon pic2_2 = new ImageIcon(img2_2);
+				picture2.setIcon(pic2_2);
+				picture2.revalidate();
+   				finalPicture = picString2;
+    				  		
+           		picture1.setIcon(pic1);
+           		picture1.revalidate();
            		
-           		picB3.setIcon(icon3);
-           		picB3.revalidate();
+           		picture3.setIcon(pic3);
+           		picture3.revalidate();
     			
         	}
         });
         
-        picB3.addActionListener(new ActionListener() {
+        picture3.addActionListener(new ActionListener() {
         	@Override
         	public void actionPerformed(ActionEvent e) {
-        		
-        		//Display image on panel and record image selected as profPic
-        		picB3.setIcon(null);
-        		picB3.revalidate();
-        		
-         		BufferedImage buttonIcon;
-    			try {
-    				buttonIcon = ImageIO.read(new File("/Users/Olivia/Documents/Misc/Pictures/Otter.jpg"));
-    				Image img4 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
-    				final Icon icon1 = new ImageIcon(img4);
-    				picB3.setIcon(icon1);
-    	     	    picB3.setBorder(BorderFactory.createEmptyBorder());
-    	     	    picB3.setContentAreaFilled(false);
-    	     	    picB3.setSize(100, 150);
-    			} catch (IOException e1) {
-    				e1.printStackTrace();
-    			} 		
-        		
-           		picB1.setIcon(icon1);
-           		picB1.revalidate();
-    			
-           		picB2.setIcon(icon2);
-           		picB2.revalidate();
-        	}
-        });
-        
-        // Takes user to the next lesson
-		forwardButton.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	anApplet.showNextTest(number);
-		    }
-		});
-		
-		// Takes user to the previous lesson
-		returnButton.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	anApplet.showPreviousTest(number);
-		    }
-		});
-    }  
 
+    	    	ImageIcon pic3_2 = new ImageIcon(img3_2);
+    	    	picture3.setIcon(pic3_2);
+    	    	picture3.revalidate();
+   				finalPicture = picString3;
+        		
+           		picture1.setIcon(pic1);
+           		picture1.revalidate();
+    			
+           		picture2.setIcon(pic2);
+           		picture2.revalidate();
+        	}
+        }); 	
+    } 	
+	
+	@Override
+	public void setQuestion() {
+		
+	}
+
+	// Paint the background
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, this);
+    }
+	
 }
