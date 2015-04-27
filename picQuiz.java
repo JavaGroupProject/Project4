@@ -13,7 +13,19 @@ import java.awt.event.ActionListener;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class picQuiz extends JPanel {
+@SuppressWarnings("serial")
+public class picQuiz extends JPanel implement MyQuestion {
+
+    // Applet object
+    private OurController aController;
+
+    // Variable to hold screen number
+    int number;
+
+    // Image for background
+    private Image backgroundImage;
+
+    // JLabel and Scroll Pane
     private JLabel title;
     private JScrollPane top;
     
@@ -32,7 +44,7 @@ public class picQuiz extends JPanel {
 	Icon icon2 = null;
 	Icon icon3 = null;
     
-    public picQuiz() {
+    public picQuiz(OurController thisController, int aNumber) {
      
 //REFERENCES:
    	 //http://stackoverflow.com/questions/15311316/how-to-put-two-components-to-a-jpanel-with-borderlayout
@@ -42,7 +54,13 @@ public class picQuiz extends JPanel {
      //http://stackoverflow.com/questions/4898584/java-using-an-image-as-a-button
      //http://stackoverflow.com/questions/2235569/add-and-remove-an-icon-on-a-jlabel
      //http://www.coderanch.com/t/342324/GUI/java/Changing-ImageIcon-JButton-click	
-    	
+
+    // Set the applet
+    this.aController = thisController;
+
+    // Set the screen number
+    number = aNumber;
+
     	//add panel for image buttons
     	JPanel picPanel = new JPanel();
      		
@@ -77,7 +95,19 @@ public class picQuiz extends JPanel {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-     		
+
+            // Set Questions
+            setQuestion();
+            setAnswer();
+
+            // Listener to take user to first screen of lesson
+            submitButton.addActionListener(new ActionListener(){
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    aController.showNextTest(number);
+                }
+            });
+
 			//Adjusting layout and size of Panel for Prof Pics
      		picPanel.setPreferredSize(new Dimension(1000, 1000));
      		picPanel.setLayout(new GridLayout(1, 3));
