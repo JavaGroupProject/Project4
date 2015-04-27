@@ -32,6 +32,11 @@ public class FriendTest extends JPanel implements MyQuestion {
 	// Get image URLs
 	URL backgroundURL = OurController.class.getResource("InfoQuiz-01.png");
 	URL friend1URL = OurController.class.getResource("Friend1-01.png");
+	URL friend2URL = OurController.class.getResource("Friend2-01.png");
+	URL friend3URL = OurController.class.getResource("Friend3-01.png");
+	URL friend4URL = OurController.class.getResource("Friend4-01.png");
+	URL friend5URL = OurController.class.getResource("Friend5-01.png");
+	URL friend6URL = OurController.class.getResource("Friend6-01.png");
 	URL submitURL = OurController.class.getResource("Submit Button.png");
 
 	// Create button of each friend to add
@@ -74,11 +79,11 @@ public class FriendTest extends JPanel implements MyQuestion {
 	    	
 	    	//add image button #1
 	    	friendImage1 = ImageIO.read(friend1URL);
-	    	friendImage2 = ImageIO.read(friend1URL); 
-	    	friendImage3 = ImageIO.read(friend1URL);
-	    	friendImage4 = ImageIO.read(friend1URL);
-	    	friendImage5 = ImageIO.read(friend1URL);
-	    	friendImage6 = ImageIO.read(friend1URL);
+	    	friendImage2 = ImageIO.read(friend2URL); 
+	    	friendImage3 = ImageIO.read(friend3URL);
+	    	friendImage4 = ImageIO.read(friend4URL);
+	    	friendImage5 = ImageIO.read(friend5URL);
+	    	friendImage6 = ImageIO.read(friend6URL);
 	    	
 	    } catch (IOException e) {
 	    	e.printStackTrace();
@@ -128,7 +133,7 @@ public class FriendTest extends JPanel implements MyQuestion {
     	friendButton2.setOpaque(false);
     	friendButton2.setBorderPainted(false);
     	friendButton2.setContentAreaFilled(false);
-        ImageIcon friend2 = new ImageIcon(friendImage1);
+        ImageIcon friend2 = new ImageIcon(friendImage2);
         friendButton2.setIcon(friend2);
     	
     	// Add image button #3
@@ -136,7 +141,7 @@ public class FriendTest extends JPanel implements MyQuestion {
     	friendButton3.setOpaque(false);
     	friendButton3.setBorderPainted(false);
     	friendButton3.setContentAreaFilled(false);
-        ImageIcon friend3 = new ImageIcon(friendImage1);
+        ImageIcon friend3 = new ImageIcon(friendImage3);
         friendButton3.setIcon(friend3);
     	
     	// Add image button #4  	
@@ -144,7 +149,7 @@ public class FriendTest extends JPanel implements MyQuestion {
     	friendButton4.setOpaque(false);
     	friendButton4.setBorderPainted(false);
     	friendButton4.setContentAreaFilled(false);
-        ImageIcon friend4 = new ImageIcon(friendImage1);
+        ImageIcon friend4 = new ImageIcon(friendImage4);
         friendButton4.setIcon(friend4);
     	
     	// Add image button #5    	
@@ -152,7 +157,7 @@ public class FriendTest extends JPanel implements MyQuestion {
     	friendButton5.setOpaque(false);
     	friendButton5.setBorderPainted(false);
     	friendButton5.setContentAreaFilled(false);
-        ImageIcon friend5 = new ImageIcon(friendImage1);
+        ImageIcon friend5 = new ImageIcon(friendImage5);
         friendButton5.setIcon(friend5);
     	
     	// Add image button #6 	
@@ -160,7 +165,7 @@ public class FriendTest extends JPanel implements MyQuestion {
     	friendButton6.setOpaque(false);
     	friendButton6.setBorderPainted(false);
     	friendButton6.setContentAreaFilled(false);
-        ImageIcon friend6 = new ImageIcon(friendImage1);
+        ImageIcon friend6 = new ImageIcon(friendImage6);
         friendButton6.setIcon(friend6);		
     	
 	    //set the size and layout of the panel
