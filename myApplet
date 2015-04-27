@@ -1,0 +1,14 @@
+<Html>
+<Head>
+<Title>Let's learn how to build a secured social profile!</Title>
+</Head>
+
+<Body>
+Our software teaches middle school students how to create a secured social profile. Throughout the lessons and simulations of building a personal profile on social media, kids will learn how to set up a safe password, which type of personal information to put online, what profile picture to choose, what types of photos are suitable to upload online, what kinds of friends to add, how to set privacy settings, and which links are safe to click on. At the end of the simulation, they will be informed of their performance and learn more about how to protect their personal information online.
+<br>
+Below is our software: <br>
+<br>
+<Applet Code="MyApplet.class" width=200 Height=100>
+</Applet>
+</Body>
+</Html> 
