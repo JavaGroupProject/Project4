@@ -43,6 +43,21 @@ public class Friend {
 		}	
 	}
 
+	// get the mutual friends
+	public int getMutualFriends() {
+		return mutualFriends;
+	}
+
+	// get the location
+	public String getLocation() {
+		return location;
+	}
+
+	// get the age
+	public int getAge() {
+		return age;
+	}
+
 	// get the name
 	public String getName(){
 		return name;
