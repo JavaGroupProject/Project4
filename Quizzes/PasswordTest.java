@@ -4,10 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.SpringLayout;
@@ -16,7 +18,7 @@ import javax.swing.SpringLayout;
 public class PasswordTest extends JPanel implements MyQuestion {
 
 	// Applet object
-	private OurController anApplet;
+	private OurController aController;
 	
 	// Image for background
 	private Image backgroundImage;
@@ -45,11 +47,17 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	// Strings
 	private String password;
 	private String confirmedPassword;
+	private boolean matching = false;
+	private boolean length = false;
+	private boolean includesSymbol = false;
+	private boolean includesNumber = false;
+	private boolean includesUpperCase = false;
+	private boolean includesLowerCase = false;
 	
 	// Constructor
 	public PasswordTest(OurController thisApplet, int aNumber){
 		
-		this.anApplet = thisApplet;
+		this.aController = thisApplet;
 		
 		number = aNumber;
 		
@@ -77,10 +85,21 @@ public class PasswordTest extends JPanel implements MyQuestion {
 			
 	        boolean isGoodPassword = isCorrect();
 	        
-	        if (isGoodPassword){
+	        // if the required info is entered
+	        if(isGoodPassword){
 	        	
-				anApplet.showNextTest(number);
+	        	aController.showNextTest(number);
+	        	
+	        }else{
+	        	isCorrect();
+        	
+	        	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
+	        	JOptionPane.showMessageDialog(aController,
+	        		    getErrorMessage(),
+	        		    "Error",
+	        		    JOptionPane.ERROR_MESSAGE);
 	        }
+	        
 		}
 	}
 	
@@ -92,43 +111,39 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	public Boolean isCorrect(){
 		// check if the passwords match
         if (password.equals(confirmedPassword)){
+        	matching = true;
+        }
             
-            // check if password is long enough
-            if (password.length() >= 8){
+        // check if password is long enough
+        if (password.length() >= 8){
+        	length = true;
+        }
                 
-                boolean includesSymbol = false;
-                boolean includesNumber = false;
-                boolean includesUpperCase = false;
-                boolean includesLowerCase = false;
+        // check if password contains a symbol, number, upper case letter, and lower case letter
+        for (int i = 0; i < password.length(); i++){
+            
+            char thisChar = password.charAt(i);
+            
+            // symbols
+            if ((thisChar >= 32 && thisChar <= 47) || (thisChar >= 58 && thisChar <= 64) ||
+                (thisChar >= 91 && thisChar <= 96) || (thisChar >= 123 && thisChar <= 126)){
+                includesSymbol = true;
+            }
+            // numbers
+            else if (thisChar >= 48 && thisChar <= 57){
+                includesNumber = true;
+            }
+            // upper case letters
+            else if (thisChar >= 65 && thisChar <= 90){
+                includesUpperCase = true;
+            }
+            // lower case letters
+            else {
+                includesLowerCase = true;
+            }   
+        }
                 
-                // check if password contains a symbol, number, upper case letter, and lower case letter
-                for (int i = 0; i < password.length(); i++){
-                    
-                    char thisChar = password.charAt(i);
-                    
-                    // symbols
-                    if ((thisChar >= 32 && thisChar <= 47) || (thisChar >= 58 && thisChar <= 64) ||
-                        (thisChar >= 91 && thisChar <= 96) || (thisChar >= 123 && thisChar <= 126)){
-                        includesSymbol = true;
-                    }
-                    // numbers
-                    else if (thisChar >= 48 && thisChar <= 57){
-                        includesNumber = true;
-                    }
-                    // upper case letters
-                    else if (thisChar >= 65 && thisChar <= 90){
-                        includesUpperCase = true;
-                    }
-                    // lower case letters
-                    else {
-                        includesLowerCase = true;
-                    }   
-                }
-                
-                return includesSymbol && includesNumber && includesUpperCase && includesLowerCase;
-            }	   
-        } 
-        return false;
+       return matching && length && includesSymbol && includesNumber && includesUpperCase && includesLowerCase;
     }
 
 	
@@ -181,6 +196,29 @@ public class PasswordTest extends JPanel implements MyQuestion {
         add(passwordLabel);
         add(confirmLabel);
         
+	}
+	
+	private String getErrorMessage(){
+		
+		String error = "";
+		
+		if(!matching){
+			error += ("Passwords do not match.\n");
+		}
+		if(!length){
+			error += ("Password is not long enough.\n");
+		}
+		if(!includesSymbol){
+			error += ("Password must inlcude a special character.\n");
+		}
+		if(!includesNumber){
+			error += ("Password must include a number.\n");
+		}
+		if(!includesUpperCase || !includesLowerCase){
+			error += ("Password must include both upper and lower case characters.\n");
+		}
+		
+		return error;
 	}
 	
 	// Paint the background
