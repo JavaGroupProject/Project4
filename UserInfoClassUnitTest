@@ -33,12 +33,13 @@ public class UserInfoClassUnitTest {
 	
 	@Test
 	public void addPictureTest() {
+		//add pictures to picture arraylist
 		picturesTest.add("TestPicture1.png");
 		picturesTest.add("TestPicture2.png");
 		picturesTest.add("TestPicture3.png");
 		
-	    	Assert.assertEquals(picturesTest.size(), 3);
-	    	UserInfoTest.addPicture("AddPicture.png");
+		Assert.assertEquals(picturesTest.size(), 3);
+		picturesTest.add("AddPicture.png");
 	    	Assert.assertEquals(picturesTest.size(), 4);
 	    	compare(picturesTest, new String[] { "TestPicture1.png", "TestPicture2.png", 
 	    		"TestPicture3.png", "AddPicture.png" });
