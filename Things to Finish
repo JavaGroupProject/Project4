@@ -6,10 +6,10 @@
 6. usability study
 7. results page
 8. send info to canvas and results
-9. button to get to results
+*needs formatting* 9. button to get to results
 10. give users pictures
-11. need to be able to send other info on infoQuiz (not just name and email)
-12. link newsfeed to friends that you selected
+//11. need to be able to send other info on infoQuiz (not just name and email)
+//12. link newsfeed to friends that you selected
 13. allow the user to change their profile picture
 14. add ads to the newsfeed
 15. create constants for all strings and ints (ints especially on canvas)
@@ -18,7 +18,11 @@
 18. create better bad link messages
 19. figure out where to store list of friends/other information for the user
 20. add more threads?
-21. get rid of print statements when generating the newsfeed
-22. does anything bad happen if the newsfeed gets too long?
-23. figure out a way to stop the newsfeed when the results page is picked
-24. add message to user if their passwords don’t match
+//21. get rid of print statements when generating the newsfeed
+//22. does anything bad happen if the newsfeed gets too long?
+//23. figure out a way to stop the newsfeed when the results page is picked
+//24. add message to user if their passwords don’t match
+25. inconsistent 8/10 character password recommendation
+26. make sure friend can’t be selected multiple times
+27. decide on time between newsfeed posts
+//28. fix message when posting a picture
