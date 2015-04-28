@@ -21,3 +21,4 @@
 21. get rid of print statements when generating the newsfeed
 22. does anything bad happen if the newsfeed gets too long?
 23. figure out a way to stop the newsfeed when the results page is picked
+24. add message to user if their passwords don’t match
