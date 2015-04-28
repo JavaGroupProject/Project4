@@ -48,11 +48,7 @@ public class OurController extends JApplet{
 	private ArrayList<Friend> friends = new ArrayList<Friend>();
 	
 	public OurController(){
-		
-		//friends.add(new Friend("Herbert Gruber", "friendicon1-01.png", 0, "Jersey City NJ", 24));
-		//friends.add(new Friend("Charlie Scott", "friendicon2-01.png", 0, "Naples FA", 34));
-		//friends.add(new Friend("Bernie McDool", "friendicon3-01.png", 0, "Sand Diego CA", 42));
-		
+				
 		// Set the size of the applet
 		setSize(new Dimension(WIDTH, HEIGHT));
 		
@@ -75,7 +71,6 @@ public class OurController extends JApplet{
 		InfoTest info = new InfoTest(this, 2);
 		PictureTest picture = new PictureTest(this, 3);
 		FriendTest friend = new FriendTest(this, 4);
-		//Canvas canvas = new Canvas(this);
 			
 		// Add the cards to the cardlayout
 		cards.add(myWelcome, WELCOME);
@@ -90,7 +85,6 @@ public class OurController extends JApplet{
 		cards.add(info, INFO);
 		cards.add(picture, PICTURE);
 		cards.add(friend, FRIEND);
-		//cards.add(canvas, CANVAS);
 		
 		// Add the cardlayout to the applet
 		add(cards);	
@@ -106,21 +100,10 @@ public class OurController extends JApplet{
 		return friends;
 	}
 		
-	// Shows the next lesson
+	// Shows the next test
 	public void showNextTest(int number){
 		
-		// Check if the page exists
 		number++;
-		String newCardName = "Test" + number;
-		
-		cardLayout.show(cards, newCardName);
-	}
-	
-	// Shows the next lesson
-	public void showPreviousTest(int number){
-		
-		// Check if the page exists
-		number--;
 		String newCardName = "Test" + number;
 		
 		cardLayout.show(cards, newCardName);
@@ -134,9 +117,9 @@ public class OurController extends JApplet{
 		// if the lessons are finished, then show the password card
 		if (number == 7){
 			cardLayout.show(cards, PASSWORD);
-		}else{
+		}
+		else{ // otherwise show the next lesson
 			String newCardName = "Lesson" + number;
-		
 			cardLayout.show(cards, newCardName);
 		}
 	}
@@ -147,11 +130,11 @@ public class OurController extends JApplet{
 		
 		number--;
 		
-		// Check if the page exists
+		// return to the welcome page if they were only on the first lesson
 		if (number == 0){
 			cardLayout.show(cards, WELCOME);
 		}
-		else {
+		else { // otherwise show the previous lesson
 			String newCardName = "Lesson" + number;
 			cardLayout.show(cards, newCardName);
 		}
@@ -176,25 +159,33 @@ public class OurController extends JApplet{
 		cardLayout.show(cards, TEACHER);
 	}
 	
+	// Shows the canvas
 	public void showCanvas(){
 		
+		// create the canvas, add it to the cards, and call the display method
 		canvas = new Canvas(this);
 		cards.add(canvas, CANVAS);
 		canvas.display();
+		
+		// show the canvas card
 		cardLayout.show(cards, CANVAS);
 		
 	}
 	
+	// Show the friends list page
 	public void showFriendList(){
+		
 		cardLayout.show(cards, FRIEND);
 	}
 	
+	// Show the results page
 	public void showResults(){
+		
+		// create the results page and add it to the cards
 		results = new Results(this);
 		cards.add(results, RESULTS);
-		//results.display();
-		//results.revalidate();
-		//results.repaint();
+
+		// show the results page
 		cardLayout.show(cards, RESULTS);
 	}
 	

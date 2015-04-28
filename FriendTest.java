@@ -4,11 +4,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -24,12 +22,32 @@ public class FriendTest extends JPanel implements MyQuestion {
 	// Image for background
 	private Image backgroundImage;
 	
+	// constants to store the information about the possible friends
 	private final String FRIEND1_NAME = "Herbert Gruber";
 	private final String FRIEND2_NAME = "Charlie Scott";
 	private final String FRIEND3_NAME = "Bernie McDool";
 	private final String FRIEND4_NAME = "Amy Parker";
 	private final String FRIEND5_NAME = "Ben Connolly";
 	private final String FRIEND6_NAME = "Lisa Williams";
+	
+	private final String FRIEND_QUIZ_IMAGE = "FriendQuiz-01.png";
+	private final String SUBMIT_BUTTON_IMAGE = "Submit Button.png";
+	
+	private final String FRIEND1_LABEL = "Friend1-01.png";
+	private final String FRIEND2_LABEL = "Friend2-01.png";
+	private final String FRIEND3_LABEL = "Friend3-01.png";
+	private final String FRIEND4_LABEL = "Friend4-01.png";
+	private final String FRIEND5_LABEL = "Friend5-01.png";
+	private final String FRIEND6_LABEL = "Friend6-01.png";
+	
+	private final String FRIEND1_IMAGE = "friendicon1-01.png";
+	private final String FRIEND2_IMAGE = "friendicon2-01.png";
+	private final String FRIEND3_IMAGE = "friendicon3-01.png";
+	private final String FRIEND4_IMAGE = "friendicon4-01.png";
+	private final String FRIEND5_IMAGE = "friendicon5-01.png";
+	private final String FRIEND6_IMAGE = "friendicon6-01.png";
+	
+	private String selectedName = "";
 	
 	// Add friend list images
 	Image friendImage1;
@@ -40,14 +58,14 @@ public class FriendTest extends JPanel implements MyQuestion {
 	Image friendImage6;
 
 	// Get image URLs
-	URL backgroundURL = OurController.class.getResource("FriendQuiz-01.png");
-	URL friend1URL = OurController.class.getResource("Friend1-01.png");
-	URL friend2URL = OurController.class.getResource("Friend2-01.png");
-	URL friend3URL = OurController.class.getResource("Friend3-01.png");
-	URL friend4URL = OurController.class.getResource("Friend4-01.png");
-	URL friend5URL = OurController.class.getResource("Friend5-01.png");
-	URL friend6URL = OurController.class.getResource("Friend6-01.png");
-	URL submitURL = OurController.class.getResource("Submit Button.png");
+	URL backgroundURL = OurController.class.getResource(FRIEND_QUIZ_IMAGE);
+	URL friend1URL = OurController.class.getResource(FRIEND1_LABEL);
+	URL friend2URL = OurController.class.getResource(FRIEND2_LABEL);
+	URL friend3URL = OurController.class.getResource(FRIEND3_LABEL);
+	URL friend4URL = OurController.class.getResource(FRIEND4_LABEL);
+	URL friend5URL = OurController.class.getResource(FRIEND5_LABEL);
+	URL friend6URL = OurController.class.getResource(FRIEND6_LABEL);
+	URL submitURL = OurController.class.getResource(SUBMIT_BUTTON_IMAGE);
 
 	// Create button of each friend to add
 	JButton friendButton1;
@@ -69,7 +87,7 @@ public class FriendTest extends JPanel implements MyQuestion {
 	Icon friendIcon6;
 	
 	//Array of Friend Objects
-	ArrayList<Friend> friendList; //= new ArrayList<Friend>();
+	ArrayList<Friend> friendList;
 	
 	public FriendTest(OurController thisController, int aNumber) {
 		
@@ -105,7 +123,7 @@ public class FriendTest extends JPanel implements MyQuestion {
 	    	e.printStackTrace();
 	    }
         
-  		// Set Questions
+  		// Set Questions and Answers
         setQuestion();
         setAnswer();        
 	    		
@@ -120,19 +138,24 @@ public class FriendTest extends JPanel implements MyQuestion {
 	}
 
 	@Override
-	public void getAnswer() {
-		// TODO Auto-generated method stub
+	public Boolean isCorrect() {
+		
+		// boolean to store whether the friend can be added
+		boolean canAddFriend = true;
+		
+		// loop through the list of friends to determine if this friend is already in the list
+		for (int i = 0; i < friendList.size(); i++){
+			if (selectedName.equals(friendList.get(i).getName())){
+				canAddFriend = false;
+			}
+		}
+		
+		return canAddFriend;
 		
 	}
 
 	@Override
-	public Boolean isCorrect() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setAnswer() {
+	public void setQuestion() {
 		
         // Add friend list panel
      	JPanel friendListPanel = new JPanel();	
@@ -214,7 +237,11 @@ public class FriendTest extends JPanel implements MyQuestion {
 	    //add the panel to frame
 	    add(friendListPanel);
 	    
-	    
+	}
+
+	@Override
+	public void setAnswer() {
+
 		// Create and set up button
 		submitButton = new JButton();
 		submitButton.setAlignmentX(CENTER_ALIGNMENT);
@@ -228,11 +255,6 @@ public class FriendTest extends JPanel implements MyQuestion {
         
         // Add button
         add(submitButton);
-	}
-
-	@Override
-	public void setQuestion() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -242,41 +264,39 @@ public class FriendTest extends JPanel implements MyQuestion {
         g.drawImage(backgroundImage, 0, 0, this);
     }
 	
+	// listener for each of the buttons to choose a friend
 	class FriendListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
 			
-			// http://stackoverflow.com/questions/7867834/get-button-name-from-actionlistener
+			// get the name of the button
+			// Citation: http://stackoverflow.com/questions/7867834/get-button-name-from-actionlistener
 			JButton selectedImage = (JButton) e.getSource();
-			String friendName = selectedImage.getName();
+			selectedName = selectedImage.getName();
 			
-			boolean canAdd = true;
-			
-			for (int i = 0; i < friendList.size(); i++){
-				if (friendName == friendList.get(i).getName()){
-					canAdd = false;
-				}
-			}
+			// check if the friend is not already in the list and can be added
+			boolean canAdd = isCorrect();
 			
 			if (canAdd){
 				
-				if (friendName.equals(FRIEND1_NAME)){
-			     	friendList.add(new Friend("Herbert Gruber", "friendicon1-01.png", 0, "Jersey City NJ", 24));
+				// add the correct friend based on the button that was pressed
+				if (selectedName.equals(FRIEND1_NAME)){
+			     	friendList.add(new Friend(FRIEND1_NAME, FRIEND1_IMAGE, 0, "Jersey City NJ", 24));
 				}
-				else if (friendName.equals(FRIEND2_NAME)){
-			     	friendList.add(new Friend("Charlie Scott", "friendicon2-01.png", 0, "Naples FA", 34));
+				else if (selectedName.equals(FRIEND2_NAME)){
+			     	friendList.add(new Friend(FRIEND2_NAME, FRIEND2_IMAGE, 0, "Naples FA", 34));
 				}
-				else if (friendName.equals(FRIEND3_NAME)){
-			     	friendList.add(new Friend("Bernie McDool", "friendicon3-01.png", 0, "Sand Diego CA", 42));
+				else if (selectedName.equals(FRIEND3_NAME)){
+			     	friendList.add(new Friend(FRIEND3_NAME, FRIEND3_IMAGE, 0, "Sand Diego CA", 42));
 				}
-				else if (friendName.equals(FRIEND4_NAME)){
-			     	friendList.add(new Friend("Amy Parker", "friendicon4-01.png", 45, "Derby CT", 35));
+				else if (selectedName.equals(FRIEND4_NAME)){
+			     	friendList.add(new Friend(FRIEND4_NAME, FRIEND4_IMAGE, 45, "Derby CT", 35));
 				}
-				else if (friendName.equals(FRIEND5_NAME)){
-			     	friendList.add(new Friend("Ben Connolly", "friendicon5-01.png", 63, "Louisville KY", 37));
+				else if (selectedName.equals(FRIEND5_NAME)){
+			     	friendList.add(new Friend(FRIEND5_NAME, FRIEND5_IMAGE, 63, "Louisville KY", 37));
 				}
-				else if (friendName.equals(FRIEND6_NAME)){
-			     	friendList.add(new Friend("Lisa Williams", "friendicon6-01.png", 12, "Phoenix AZ", 74));
+				else if (selectedName.equals(FRIEND6_NAME)){
+			     	friendList.add(new Friend(FRIEND6_NAME, FRIEND6_IMAGE, 12, "Phoenix AZ", 74));
 				}
 				else {
 					// TODO should throw an exception

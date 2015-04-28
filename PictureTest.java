@@ -109,7 +109,7 @@ public class PictureTest extends JPanel implements MyQuestion {
 	    	e.printStackTrace();
 	    }
 
-        // Set Questions
+        // Set Questions and Answers
         setQuestion();
         setAnswer();
         
@@ -132,12 +132,6 @@ public class PictureTest extends JPanel implements MyQuestion {
                 aController.showNextTest(number);
             }
         });			
-	}
-	
-	@Override
-	public void getAnswer() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

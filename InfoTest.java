@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/BoxLayoutDemoProject/src/layout/BoxLayoutDemo.java
+// Citation: https://docs.oracle.com/javase/tutorial/displayCode.html?code=https://docs.oracle.com/javase/tutorial/uiswing/examples/layout/BoxLayoutDemoProject/src/layout/BoxLayoutDemo.java
 
 @SuppressWarnings("serial")
 public class InfoTest extends JPanel implements MyQuestion {
@@ -26,9 +26,13 @@ public class InfoTest extends JPanel implements MyQuestion {
 	// Variable to hold screen number
 	int number;
 	
+	// constants to store the images
+	private final String SUBMIT_BUTTON_IMAGE = "Submit Button.png";
+	private final String INFO_QUIZ_IMAGE = "InfoQuiz-01.png";
+	
 	// Get image URLs
-	URL submitURL = OurController.class.getResource("Submit Button.png");
-	URL backgroundURL = OurController.class.getResource("InfoQuiz-01.png");
+	URL submitURL = OurController.class.getResource(SUBMIT_BUTTON_IMAGE);
+	URL backgroundURL = OurController.class.getResource(INFO_QUIZ_IMAGE);
 	
 	// Image for background
 	private Image backgroundImage;
@@ -106,10 +110,7 @@ public class InfoTest extends JPanel implements MyQuestion {
         add(required);	
 	}
 	
-	public void getAnswer(){
-		// this is done by the action listener
-	}
-	
+	@Override
 	public Boolean isCorrect(){
 		
 		// get the fields
@@ -133,7 +134,8 @@ public class InfoTest extends JPanel implements MyQuestion {
         	
         	return true;
         	
-        }else{
+        }
+        else{
         	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
         	JOptionPane.showMessageDialog(aController,
         		    "Please provide some information before proceeding.",
@@ -145,6 +147,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 	}
 	
 	// Set Answer
+	@Override
 	public void setAnswer(){
 		
 		// Set fields for user to enter info into
@@ -165,6 +168,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 	}
 	
 	// Set Question
+	@Override
 	public void setQuestion(){
 		
 		// Set labels

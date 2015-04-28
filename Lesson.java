@@ -1,43 +1,59 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Insets;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.io.IOException;
+import java.net.URL;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 @SuppressWarnings("serial")
 public class Lesson extends JPanel{
 
 	// Frame object
-	private MyApplet anApplet;
+	private OurController anApplet;
 	
 	// Variable to hold screen number
 	Integer number;
 	
-	// string with the lesson information
-	private String msg;
+	// Lesson Images
+	private Image lesson;
+	private Image passwordMsg;
+	private Image infoMsg;
+	private Image friendMsg;
+	private Image profPicMsg;
+	private Image privacySettingMsg;
+	private Image badLinksMsg;
 	
-	private JTextArea textArea;
+	// Pull image url from bin
+	URL passwordURL = OurController.class.getResource("PasswordLesson-01.png");
+	URL infoURL = OurController.class.getResource("InfoLesson-01.png");
+	URL friendURL = OurController.class.getResource("FriendLesson-01.png");
+	URL profPicURL = OurController.class.getResource("PictureLesson-01.png");
+	URL privacyURL = OurController.class.getResource("PrivacyLesson-01.png");
+	URL linkURL = OurController.class.getResource("LinkLesson-01.png");
+	URL forwardURL = OurController.class.getResource("ForwardButton.png");
+	URL returnURL = OurController.class.getResource("ReturnButton.png");
+	
+	// Purple
+	public Color purple = new Color(55, 29, 145);
 	
 	// Create buttons
-	JButton forwardButton = new JButton("FORWARD");
-	JButton returnButton = new JButton("RETURN");
+	JButton forwardButton = new JButton();
+	JButton returnButton = new JButton();
 	
 	// Constructor
-	public Lesson(MyApplet thisApplet, int lessonNum, String msg) {
+	public Lesson(OurController thisApplet, int lessonNum) {
 		
 		// Set the screen number
 		number = lessonNum;
 
-		// Pass in the frame
+		// Pass in the applet
 		this.anApplet = thisApplet;
-			
-		this.msg = msg;
 		
 		// Initialize the GUI
 		initLesson();
@@ -48,29 +64,65 @@ public class Lesson extends JPanel{
 		
 		// Set layout
 		setLayout(new BorderLayout());
-		setBackground(Color.BLUE);
 		
-		// Add the text area
-		//textArea = new JTextArea(50, 50);
-        textArea = new JTextArea();
-		textArea.setText(msg);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        textArea.setMargin(new Insets(20, 20, 20, 20));
- 
-        //add(textArea, BorderLayout.CENTER);
-		add(scrollPane, BorderLayout.CENTER);
-        
+		// Set lesson background
+		try {
+			passwordMsg = ImageIO.read(passwordURL);
+			infoMsg  = ImageIO.read(infoURL);
+			friendMsg = ImageIO.read(friendURL);
+			profPicMsg = ImageIO.read(profPicURL);
+			privacySettingMsg = ImageIO.read(privacyURL);
+			badLinksMsg = ImageIO.read(linkURL);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		// chooses background
+		switch (number){
+		case 1:
+			lesson = passwordMsg;
+			break;
+		case 2:
+			lesson = infoMsg;
+			break;	
+		case 3:
+			lesson = friendMsg;
+			break;
+		case 4:
+			lesson = profPicMsg;
+			break;
+		case 5:
+			lesson = privacySettingMsg;
+			break;
+		case 6:
+			lesson = badLinksMsg;
+			break;
+		}
+		
 		// Add Buttons
 		// http://stackoverflow.com/questions/15311316/how-to-put-two-components-to-a-jpanel-with-borderlayout
 		JPanel buttonsPanel = new JPanel(new BorderLayout());
-		buttonsPanel.setBackground(Color.WHITE);
+		buttonsPanel.setBackground(purple);
 		buttonsPanel.add(returnButton, BorderLayout.WEST);
 		buttonsPanel.add(forwardButton, BorderLayout.EAST);
-
-		add(buttonsPanel,BorderLayout.PAGE_END);
+		
+		// Set up forward button
+		forwardButton.setOpaque(false);
+        forwardButton.setBorderPainted(false);
+        forwardButton.setContentAreaFilled(false);
+        ImageIcon forwardB = new ImageIcon(forwardURL);
+     	forwardButton.setIcon((forwardB));
+     	
+     	// Set up return button
+     	returnButton.setOpaque(false);
+     	returnButton.setBorderPainted(false);
+     	returnButton.setContentAreaFilled(false);
+        ImageIcon returnB = new ImageIcon(returnURL);
+     	returnButton.setIcon((returnB));
+     	
+     	// Add the button panel
+		add(buttonsPanel, BorderLayout.PAGE_END);
 		
 		// Takes user to the next lesson
 		forwardButton.addActionListener(new ActionListener(){
@@ -88,4 +140,10 @@ public class Lesson extends JPanel{
 		    }
 		});
 	}
+	
+	// Paint the background
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(lesson, 0, 0, this);
+    }
 }
