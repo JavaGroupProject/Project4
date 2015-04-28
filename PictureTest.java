@@ -7,12 +7,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class PictureTest extends JPanel implements MyQuestion {
 
+    //REFERENCES:
+   	//http://stackoverflow.com/questions/15311316/how-to-put-two-components-to-a-jpanel-with-borderlayout
+    //http://stackoverflow.com/questions/17880182/set-size-dimension-of-image-in-jbutton		
+    //http://stackoverflow.com/questions/6810581/how-to-center-the-text-in-a-jlabel
+    //http://stackoverflow.com/questions/11536089/making-all-button-size-same
+    //http://stackoverflow.com/questions/4898584/java-using-an-image-as-a-button
+    //http://stackoverflow.com/questions/2235569/add-and-remove-an-icon-on-a-jlabel
+    //http://www.coderanch.com/t/342324/GUI/java/Changing-ImageIcon-JButton-click
+	
     // OurController object
     private OurController aController;
 
@@ -24,35 +34,32 @@ public class PictureTest extends JPanel implements MyQuestion {
 
     // Image for background
     private Image backgroundImage;
-
-    // JLabel and Scroll Pane
-    private JLabel title;
-    private JScrollPane top;
     
     //Declare Buttons
     private JButton picture1; 
     private JButton picture2;
     private JButton picture3;
-    
     private JButton submitButton = new JButton();
-	
-	// Add friend list images
-    private Image friendImage1;
-    private Image friendImage2;
-    private Image friendImage3;
-    private Image friendImage4;
-    private Image friendImage5;
-    private Image friendImage6;
 
+    // constants to store the images
+    private final String PICTURE_QUIZ_IMAGE = "PicQuiz-01.png";
+    private final String PIC1_GRAY = "profPic1-01.png";
+    private final String PIC2_GRAY = "profPic2-01.png";
+    private final String PIC3_GRAY = "profPic3-01.png";
+    private final String PIC1_BLUE = "profPic1-2-01.png";
+    private final String PIC2_BLUE = "profPic2-2-01.png";
+    private final String PIC3_BLUE = "profPic3-2-01.png";
+    private final String SUBMIT_BUTTON_IMAGE = "Submit Button.png";
+    
 	// Get image URLs
-    private URL backgroundURL = OurController.class.getResource("PicQuiz-01.png");
-    private URL pic1URL = OurController.class.getResource("profPic1-01.png");
-    private URL pic2URL = OurController.class.getResource("profPic2-01.png");
-    private URL pic3URL = OurController.class.getResource("profPic3-01.png");
-    private URL pic1_2URL = OurController.class.getResource("profPic1-2-01.png");
-    private URL pic2_2URL = OurController.class.getResource("profPic2-2-01.png");
-    private URL pic3_2URL = OurController.class.getResource("profPic3-2-01.png");
-    private URL submitURL = OurController.class.getResource("Submit Button.png");
+    private URL backgroundURL = OurController.class.getResource(PICTURE_QUIZ_IMAGE);
+    private URL pic1URL = OurController.class.getResource(PIC1_GRAY);
+    private URL pic2URL = OurController.class.getResource(PIC2_GRAY);
+    private URL pic3URL = OurController.class.getResource(PIC3_GRAY);
+    private URL pic1_2URL = OurController.class.getResource(PIC1_BLUE);
+    private URL pic2_2URL = OurController.class.getResource(PIC2_BLUE);
+    private URL pic3_2URL = OurController.class.getResource(PIC3_BLUE);
+    private URL submitURL = OurController.class.getResource(SUBMIT_BUTTON_IMAGE);
 	
 	//Declare Images
     private Image img1;
@@ -62,28 +69,19 @@ public class PictureTest extends JPanel implements MyQuestion {
     private Image img2_2;
     private Image img3_2;
 	
+    // string to store the picture that the user selects
     private String finalPicture = "";
-    private String picString1 = "profPic1-01.png";
-    private String picString2 = "profPic2-01.png"; 
-    private String picString3 = "profPic3-01.png";
 	
-    public PictureTest(OurController thisController, int aNumber) {
-     
-//REFERENCES:
-   	 //http://stackoverflow.com/questions/15311316/how-to-put-two-components-to-a-jpanel-with-borderlayout
-     //http://stackoverflow.com/questions/17880182/set-size-dimension-of-image-in-jbutton		
-     //http://stackoverflow.com/questions/6810581/how-to-center-the-text-in-a-jlabel
-     //http://stackoverflow.com/questions/11536089/making-all-button-size-same
-     //http://stackoverflow.com/questions/4898584/java-using-an-image-as-a-button
-     //http://stackoverflow.com/questions/2235569/add-and-remove-an-icon-on-a-jlabel
-     //http://www.coderanch.com/t/342324/GUI/java/Changing-ImageIcon-JButton-click	
+    // Constructor
+    public PictureTest(OurController thisController, int aNumber) {	
 
-    // Set the applet
+    // Set the controller
     this.aController = thisController;
 
     // Set the screen number
     number = aNumber;
     
+    // get the user from the controller
     myUser = thisController.getUser();
 		
         // Get images
@@ -91,7 +89,7 @@ public class PictureTest extends JPanel implements MyQuestion {
 	    	//add background 
 	    	backgroundImage = ImageIO.read(backgroundURL);
 	    	
-	    	//add image button #1
+	    	// read in all of the images
 	    	img1 = ImageIO.read(pic1URL);
 	    	img2 = ImageIO.read(pic2URL); 
 	    	img3 = ImageIO.read(pic3URL);
@@ -110,38 +108,24 @@ public class PictureTest extends JPanel implements MyQuestion {
         setQuestion();
         setAnswer();
         
-    	//Add Button
-    	submitButton = new JButton();
-    	submitButton.setOpaque(false);
-    	submitButton.setBorderPainted(false);
-    	submitButton.setContentAreaFilled(false);
-    	ImageIcon submit = new ImageIcon(submitURL);
-    	submitButton.setIcon(submit);
-		add(submitButton, BorderLayout.CENTER);
-
-        // Listener to take user to first screen of lesson
-        submitButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	
-            	if (!finalPicture.equals("")){
-            		myUser.setProfilePicture(finalPicture);
-                	
-                    aController.showNextTest(number);
-            	}
-
-            }
-        });			
 	}
 
+    // check if the user has selected a picture
 	@Override
-	public Boolean isCorrect() {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean isCorrect(){
+		
+		// return true if the user has selected a picture
+		if (!finalPicture.equals("")){
+    		return true;
+    	}
+		else { // otherwise return false
+			return false;
+		}
+		
 	}
 	
 	@Override
-	public void setAnswer() {
+	public void setQuestion() {
 	
     	//add panel for image buttons
     	JPanel picPanel = new JPanel();
@@ -193,7 +177,7 @@ public class PictureTest extends JPanel implements MyQuestion {
            		ImageIcon pic1_2 = new ImageIcon(img1_2);
    				picture1.setIcon(pic1_2);
    				picture1.revalidate();
-   				finalPicture = picString1;
+   				finalPicture = PIC1_GRAY;
             	
         		//Set other two buttons back to their original image icons
            		picture2.setIcon(pic2);
@@ -209,11 +193,14 @@ public class PictureTest extends JPanel implements MyQuestion {
         	@Override
         	public void actionPerformed(ActionEvent e) {
         		
+           		//When clicked, change image of button and change
+           		//other two pictures to their original profile picture 
     	    	ImageIcon pic2_2 = new ImageIcon(img2_2);
 				picture2.setIcon(pic2_2);
 				picture2.revalidate();
-   				finalPicture = picString2;
-    				  		
+   				finalPicture = PIC2_GRAY;
+    				
+   				//Set other two buttons back to their original image icons
            		picture1.setIcon(pic1);
            		picture1.revalidate();
            		
@@ -227,11 +214,14 @@ public class PictureTest extends JPanel implements MyQuestion {
         	@Override
         	public void actionPerformed(ActionEvent e) {
 
+        		//When clicked, change image of button and change
+           		//other two pictures to their original profile picture 
     	    	ImageIcon pic3_2 = new ImageIcon(img3_2);
     	    	picture3.setIcon(pic3_2);
     	    	picture3.revalidate();
-   				finalPicture = picString3;
+   				finalPicture = PIC3_GRAY;
         		
+   				//Set other two buttons back to their original image icons
            		picture1.setIcon(pic1);
            		picture1.revalidate();
     			
@@ -242,8 +232,36 @@ public class PictureTest extends JPanel implements MyQuestion {
     } 	
 	
 	@Override
-	public void setQuestion() {
+	public void setAnswer() {
 		
+    	//Add submit button
+    	submitButton = new JButton();
+    	submitButton.setOpaque(false);
+    	submitButton.setBorderPainted(false);
+    	submitButton.setContentAreaFilled(false);
+    	ImageIcon submit = new ImageIcon(submitURL);
+    	submitButton.setIcon(submit);
+		add(submitButton, BorderLayout.CENTER);
+
+        // Listener to take user to first screen of lesson
+        submitButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	
+            	boolean canProceed = isCorrect();
+            	
+            	// if the user has selected a profile picture
+            	if (canProceed){
+            		myUser.setProfilePicture(finalPicture);
+                    aController.showNextTest(number);
+            	}
+            	else { // otherwise display an error panel
+            		JOptionPane.showMessageDialog(aController, "Please select a profile picture.", "Error", 
+							  JOptionPane.ERROR_MESSAGE);
+            	}
+
+            }
+        });	
 	}
 
 	// Paint the background
