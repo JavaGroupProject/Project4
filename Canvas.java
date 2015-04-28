@@ -104,7 +104,6 @@ public class Canvas extends JPanel {
     	ImageIcon post = new ImageIcon(postURL);
     	statusButton.setIcon(post);
         
-        
         // create a newsfeed object and create a scroll pane for it
 		newsfeed = new Newsfeed(aController);
 		newsfeedScrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
@@ -112,7 +111,7 @@ public class Canvas extends JPanel {
 		newsfeedScrollPane.setViewportView(newsfeed);
 		newsfeedScrollPane.setPreferredSize(new Dimension(320,505));
 		
-		// Citations for dealing with image icons
+		// References for dealing with image icons
 		// https://docs.oracle.com/javase/tutorial/uiswing/components/applet.html#images
 		// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
 		// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html#applet
@@ -157,8 +156,6 @@ public class Canvas extends JPanel {
 	
 	// sets the constraints for all of the elements that need to be added to the jpanel
 	public void setAllSpringConstraints(){
-		
-		// TODO add constants here
 		
 		// status
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, statusScrollPane,0,SpringLayout.HORIZONTAL_CENTER, this);

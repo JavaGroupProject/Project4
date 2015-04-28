@@ -240,6 +240,7 @@ public class Newsfeed extends JPanel {
 		
 	}
 	
+	// create a listener for the timer so that items are placed on the newsfeed
 	// http://www.java2s.com/Tutorial/Java/0240__Swing/SwingTimers.htm
 	class timerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -247,12 +248,8 @@ public class Newsfeed extends JPanel {
 			// Create a random number generator
   			// Citation: http://www.javapractices.com/topic/TopicAction.do?Id=62
   			Random numberGenerator = new Random();
-  			// need to alternate between posts from friends and bad links
-  			// both can be with or without pictures
   			switch(newsfeedIndex){
   				case 0: // text and picture
-  					//System.out.println("text and picture");
-  					
 			  		// generate a random number from 0 to the size of the friends list - 1 
   					// (a valid index into the ArrayList)
 			  		int randomIndex = numberGenerator.nextInt(friends.size());
@@ -260,18 +257,14 @@ public class Newsfeed extends JPanel {
 			  		String caption = friends.get(randomIndex).getName() + " posted a photo: ";
 			  		addPicture(caption, friends.get(randomIndex).getRandomPicture());
 			  		break;
-			  	case 1: // bad link
-			  		//System.out.println("add bad link");
-			  		
+			  	case 1: // bad link			  		
 			  		// generate a random number from 0 to the size of the bad links list - 1 
   					// (a valid index into the ArrayList)
 			  		int randomLink = numberGenerator.nextInt(badLinks.size());
 			  		
 			  		addLink(badLinks.get(randomLink));
 					break;
-		  		case 2: // text
-			  		//System.out.println("add text");
-			  		
+		  		case 2: // text			  		
 			  		// generate a random number from 0 to the size of the friends list - 1 
   					// (a valid index into the ArrayList)
 			  		int randomFriend = numberGenerator.nextInt(friends.size());
@@ -280,14 +273,13 @@ public class Newsfeed extends JPanel {
 			  						  + friends.get(randomFriend).getRandomMessage();
 			  		addPost(postText);
 			  		break;
-			  	case 3: // ad?
-			  		//System.out.println("add something here");
+			  	case 3:
+			  		// does nothing, adds extra time before the next picture is displayed
 			  		break;
-			  	default: // error, should throw an exception
+			  	default:
 			  		break;
   			}
   			
-  			// TODO cycle or generate a random number???
   			newsfeedIndex = (newsfeedIndex+1) % NEWSFEED_OPTIONS;
 
 		}

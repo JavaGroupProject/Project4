@@ -12,7 +12,7 @@
 //12. link newsfeed to friends that you selected
 //13. allow the user to change their profile picture
 //14. add ads to the newsfeed
-15. create constants for all strings and ints (ints especially on canvas)
+//15. create constants for all strings and ints (ints especially on canvas)
 //16. allow the user to add friends
 17. add customized messages and pictures for each user
 18. create better bad link messages
