@@ -33,39 +33,43 @@ public class Newsfeed extends JPanel {
 	private final int NEWSFEED_OPTIONS = 4;
 	
 	// array list to store the friends that the user has chosen
-	// information should be generated from the friends quiz
-	private ArrayList<Friend> friends; //= new ArrayList<Friend>();
+	private ArrayList<Friend> friends;
 	
 	// array list to store the text for all of the bad links
 	private ArrayList<String> badLinks = new ArrayList<String>();
 	
+	// timer for generating posts
 	private Timer timer;
+	
+	private final String BAD_LINKS_FILE = "badLinks.txt";
+	private final String CLICK_HERE = "\nCLICK HERE";
 	
 	public Newsfeed(OurController controller){
 		
 		this.aController = controller;
 		
+		// get the user's friends
 		friends = aController.getFriends();
 		
 		// adds a new picture post every 10 seconds
 		timer = new Timer(10000, new timerListener());
 	    timer.start();
 		
+	    // initialize the newsfeed
 		initNewsfeed();
 		
+		// get the text for the bad links
 		try {
 			readBadLinks();
-			//loadMessagesURL();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
+	// initialize the newsfeed
 	public void initNewsfeed(){
 		
 		// set the layout as a box layout
@@ -76,25 +80,29 @@ public class Newsfeed extends JPanel {
 		
 	}
 	
+	// stops the timer so posts aren't generated anymore
 	public void stopTimer(){
 		
 		timer.stop();
 		
 	}
 	
+	// read the bad links text from the file in bin
+	// Citation: http://www.tutorialspoint.com/javaexamples/applet_readfile.htm
 	public void readBadLinks() throws FileNotFoundException, IOException {
 		
-		// http://www.tutorialspoint.com/javaexamples/applet_readfile.htm
-		// this version of the method reads from a file placed in bin
 		String line = null;
-		URL url = Canvas.class.getResource("badLinks.txt");
-	         
+		
+		// get the correct file
+		URL url = Canvas.class.getResource(BAD_LINKS_FILE);
+	    
+		// read all of the lines from the file
 	    InputStream in = url.openStream();
-	    BufferedReader bf = new BufferedReader(new InputStreamReader(in));
-	    while((line = bf.readLine()) != null){
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+	    while((line = reader.readLine()) != null){
 	    	
 	    	// add text that says click here to the bad link
-	    	String newLink = line + "\nCLICK HERE";
+	    	String newLink = line + CLICK_HERE;
 	    	
 	    	// add the complete text string to the bad links array
 	    	badLinks.add(newLink);
@@ -102,9 +110,8 @@ public class Newsfeed extends JPanel {
 		
 	}
 	
+	// add a post to the newsfeed
 	public void addPost(String text){
-		
-		//add(new JLabel("    "), 0);
 		
 		// create a new text area
 		JTextArea post = new JTextArea();
@@ -125,8 +132,6 @@ public class Newsfeed extends JPanel {
 		scroll.setMinimumSize(new Dimension(300, 50));
 		scroll.setPreferredSize(new Dimension(300, 50));
 		
-		//scroll.setBorder(null);
-		
 		// add the scroll pane to the top of the newsfeed
 		add(scroll, 0);
 		
@@ -136,29 +141,27 @@ public class Newsfeed extends JPanel {
 		
 	}
 	
+	// add a picture and caption to the newsfeed
 	public void addPicture(String caption, String picture){
 		
+		// add a blank label to fix the spacing
 		add(new JLabel("    "), 0);
 		
-		// also works to use MyApplet.class
+		// TODO might be able to cut down on this code
 		URL imageURL = Canvas.class.getResource(picture);
 		ImageIcon image = new ImageIcon(imageURL);
-		
-		// need to figure out a better way to access the pictures
-        //ImageIcon image = new ImageIcon("/Users/Zoe/Desktop/picture.png", "picture");
-        
         // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
         Image img = image.getImage();
         Image newimg = img.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
         image = new ImageIcon(newimg);
         
+        // create a jlabel with the image
         JLabel imageLabel = new JLabel(image);
         imageLabel.setSize(new Dimension(150,150));
-        
         imageLabel.setAlignmentX(CENTER_ALIGNMENT);
-        
         add(imageLabel, 0);
         
+        // add a caption if one is provided
 		if (!caption.equals("")){
 			addPost(caption);
 		}
@@ -169,7 +172,8 @@ public class Newsfeed extends JPanel {
 		}
 		
 	}
-		
+	
+	// adds a bad link to the newsfeed
 	public void addLink(String linkText){
 		
 		// create a new text area
@@ -183,14 +187,11 @@ public class Newsfeed extends JPanel {
 		linkPost.setLineWrap(true);
 		linkPost.setWrapStyleWord(true);
 		
+		// add a mouse listener so that you can tell if the user has clicked on the bad link
 		// http://stackoverflow.com/questions/10133366/how-to-clear-jtextfield-when-mouse-clicks-the-jtextfield
 		linkPost.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-            	
-            	// TODO
-            	// might need to have different looking panels depending on the post
-            	// will also need to process the information differently (in the ok option if statement)
             	
             	// http://stackoverflow.com/questions/6555040/multiple-input-in-joptionpane-showinputdialog
             	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
@@ -229,8 +230,6 @@ public class Newsfeed extends JPanel {
 		scroll.setMaximumSize(new Dimension(300, 50));
 		scroll.setMinimumSize(new Dimension(300, 50));
 		scroll.setPreferredSize(new Dimension(300, 50));
-		
-		//scroll.setBorder(null);
 
 		// add the scroll pane to the top of the newsfeed
 		add(scroll, 0);

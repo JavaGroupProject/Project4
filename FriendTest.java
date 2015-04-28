@@ -131,7 +131,10 @@ public class FriendTest extends JPanel implements MyQuestion {
 		submitButton.addActionListener(new ActionListener(){
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		    	aController.showCanvas();
+		    	if (!friendList.isEmpty()){
+		    		// TODO add error message
+		    		aController.showCanvas();
+		    	}
 		    }
 		});
 		

@@ -3,20 +3,17 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class PictureTest extends JPanel implements MyQuestion {
 
-    // Applet object
+    // OurController object
     private OurController aController;
 
     // Variable to hold screen number
@@ -65,7 +62,7 @@ public class PictureTest extends JPanel implements MyQuestion {
     private Image img2_2;
     private Image img3_2;
 	
-    private String finalPicture;
+    private String finalPicture = "";
     private String picString1 = "profPic1-01.png";
     private String picString2 = "profPic2-01.png"; 
     private String picString3 = "profPic3-01.png";
@@ -127,9 +124,12 @@ public class PictureTest extends JPanel implements MyQuestion {
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-            	myUser.setProfilePicture(finalPicture);
-            	
-                aController.showNextTest(number);
+            	if (!finalPicture.equals("")){
+            		myUser.setProfilePicture(finalPicture);
+                	
+                    aController.showNextTest(number);
+            	}
+
             }
         });			
 	}

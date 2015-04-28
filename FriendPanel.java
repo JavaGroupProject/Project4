@@ -9,43 +9,39 @@ import javax.swing.JPanel;
 
 public class FriendPanel extends JPanel {
 
-	private MyApplet anApplet;
+	// OurController object
+	private OurController aController;
 	
-	public FriendPanel(MyApplet thisApplet){
+	// Constructor
+	public FriendPanel(OurController thisController){
 		
-		this.anApplet = thisApplet;
+		this.aController = thisController;
 		
-		//setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		//setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(300, 295));
+		// set the size and the background
+		setPreferredSize(new Dimension(300, 200));
 		setBackground(Color.WHITE);
 		
 		init();
 		
 	}
 	
+	// initialization method
 	public void init(){
 		
-		ArrayList<Friend> friends = anApplet.getFriends();
+		// get the list of friends that the user has
+		ArrayList<Friend> friends = aController.getFriends();
 		
+		// loop through all of the friends
 		for (int i = 0; i < friends.size(); i++){
 			
+			// create a jlabel with a picture for each of the friends
 			String imageName = friends.get(i).getProfilePicture();
-			URL imageURL = MyApplet.class.getResource(imageName);
-			ImageIcon profpic = new ImageIcon(imageURL);
-			
-			// create an image icon for the profile picture
-			// will need to change this
-	        //ImageIcon profpic = new ImageIcon("/Users/Zoe/Desktop/picture.png", "profile picture");
-	        
-	        // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
-	        Image img = profpic.getImage();
-	        Image newimg = img.getScaledInstance(85, 85, java.awt.Image.SCALE_SMOOTH);
-	        profpic = new ImageIcon(newimg);
-	        
+			URL imageURL = OurController.class.getResource(imageName);
+			ImageIcon profpic = new ImageIcon(imageURL);	        
 	        JLabel profpicLabel = new JLabel(profpic);
 	        profpicLabel.setSize(new Dimension(85,85));
 			
+	        // add the picture to the jpanel
 	        add(profpicLabel);
 	        
 		}

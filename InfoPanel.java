@@ -2,9 +2,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.Box;
+import java.net.URL;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,11 +13,17 @@ import javax.swing.JTextField;
 
 public class InfoPanel extends JPanel {
 
-	private MyApplet anApplet;
+	private OurController aController;
 	
+	// store an object of itself so it can be revalidated in the action listener
 	private InfoPanel myPanel;
 	
-	//private JLabel title = new JLabel("PERSONAL INFO");
+	// constant to store the button image
+	private final String UPDATE_BUTTON_IMAGE = "UpdateButton.png";
+	
+	private URL updateURL = OurController.class.getResource(UPDATE_BUTTON_IMAGE);
+	
+	// jlabels that will appear on the screen
 	private JLabel name;
 	private JLabel email;
 	private JLabel birthday = new JLabel("Birthday: ");
@@ -29,48 +35,66 @@ public class InfoPanel extends JPanel {
 	private JLabel school = new JLabel("School: ");
 	private JLabel gradYear = new JLabel("Graduation year: ");
 	
+	// button for adding more information
 	private JButton addInfoButton;
 		
-	public InfoPanel(MyApplet thisApplet){
+	public InfoPanel(OurController thisController){
 		
-		this.anApplet = thisApplet;
+		this.aController = thisController;
 		
+		myPanel = this;
+		
+		// set the layout, size, and background
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setPreferredSize(new Dimension(300, 320));
+		setPreferredSize(new Dimension(300, 200));
 		setBackground(Color.WHITE);
 		
 		init();
 		display();
 		
-		myPanel = this;
+		
 		
 	}
 	
 	public void init(){
 		
-		name = new JLabel("Name: " + anApplet.getUser().getName());
-		email = new JLabel("Email: " + anApplet.getUser().getEmail());
-		addInfoButton = new JButton("Add Info");
+		name = new JLabel("Name: " + aController.getUser().getName());
+		email = new JLabel("Email: " + aController.getUser().getEmail());
+		addInfoButton = new JButton();
+		addInfoButton.setOpaque(false);
+		addInfoButton.setBorderPainted(false);
+		addInfoButton.setContentAreaFilled(false);
+    	ImageIcon post = new ImageIcon(updateURL);
+    	addInfoButton.setIcon(post);
+        add(addInfoButton);
+		
 		addInfoButton.addActionListener(new ButtonListener());
-		//title.setAlignmentX(CENTER_ALIGNMENT);
-		name.setAlignmentX(CENTER_ALIGNMENT);
-		email.setAlignmentX(CENTER_ALIGNMENT);
+		
+		setAlignment();
+		
+	}
+	
+	// set the alignment of all the elements that appear on the panel
+	public void setAlignment(){
+		
+		name.setAlignmentX(LEFT_ALIGNMENT);
+		email.setAlignmentX(LEFT_ALIGNMENT);
 		addInfoButton.setAlignmentX(CENTER_ALIGNMENT);
-		birthday.setAlignmentX(CENTER_ALIGNMENT);
-		address.setAlignmentX(CENTER_ALIGNMENT);
-		phone.setAlignmentX(CENTER_ALIGNMENT);
-		ssn.setAlignmentX(CENTER_ALIGNMENT);
-		gender.setAlignmentX(CENTER_ALIGNMENT);
-		creditCard.setAlignmentX(CENTER_ALIGNMENT);
-		school.setAlignmentX(CENTER_ALIGNMENT);
-		gradYear.setAlignmentX(CENTER_ALIGNMENT);
-		add(Box.createRigidArea(new Dimension(10,60)));
+		birthday.setAlignmentX(LEFT_ALIGNMENT);
+		address.setAlignmentX(LEFT_ALIGNMENT);
+		phone.setAlignmentX(LEFT_ALIGNMENT);
+		ssn.setAlignmentX(LEFT_ALIGNMENT);
+		gender.setAlignmentX(LEFT_ALIGNMENT);
+		creditCard.setAlignmentX(LEFT_ALIGNMENT);
+		school.setAlignmentX(LEFT_ALIGNMENT);
+		gradYear.setAlignmentX(LEFT_ALIGNMENT);
 		
 	}
 	
 	public void display(){
 		
-		UserInfo user = anApplet.getUser();
+		// get the user object
+		UserInfo user = aController.getUser();
 		
     	if (!(user.getBirthday()).equals("")){
     		birthday.setText("Birthday: " + user.getBirthday());
@@ -110,7 +134,6 @@ public class InfoPanel extends JPanel {
 
     	}
     	
-		//add(title);
 		add(name);
 		add(email);
 		add(birthday);
@@ -129,7 +152,7 @@ public class InfoPanel extends JPanel {
 		
 		public void actionPerformed(ActionEvent e){
 			
-			UserInfo user = anApplet.getUser();
+			UserInfo user = aController.getUser();
 
 	    	// http://stackoverflow.com/questions/6555040/multiple-input-in-joptionpane-showinputdialog
         	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
@@ -162,7 +185,7 @@ public class InfoPanel extends JPanel {
         	optionPanel.add(gradYearField);
 
         	
-        	int result = JOptionPane.showConfirmDialog(anApplet, optionPanel, "Enter your information", 
+        	int result = JOptionPane.showConfirmDialog(aController, optionPanel, "Enter your information", 
         											   JOptionPane.OK_CANCEL_OPTION);
         	
             if (result == JOptionPane.OK_OPTION) {

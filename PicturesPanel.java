@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -13,19 +12,17 @@ import javax.swing.JPanel;
 
 public class PicturesPanel extends JPanel {
 
-	private OurController anApplet;
+	private OurController aController;
 	
 	private Newsfeed newsfeed;
 	
-	//private URL updateURL = OurController.class.getResource("PostButton.png");
-	
-	public PicturesPanel(OurController thisApplet, Newsfeed newsfeed){
+	// Constructor
+	public PicturesPanel(OurController thisController, Newsfeed newsfeed){
 		
-		this.anApplet = thisApplet;
+		this.aController = thisController;
 		this.newsfeed = newsfeed;
 		
-		//setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		//setLayout(new BorderLayout());
+		// set the size and the background
 		setPreferredSize(new Dimension(300, 280));
 		setBackground(Color.WHITE);
 		
@@ -35,59 +32,58 @@ public class PicturesPanel extends JPanel {
 	
 	public void init(){
 		
-		ArrayList<String> pictures = anApplet.getUser().getPictures();
+		// get the user's pictures
+		ArrayList<String> pictures = aController.getUser().getPictures();
 		
+		// loop through all of the pictures
 		for (int i = 0; i < pictures.size(); i++){
 			
+			// TODO might be able to get rid of some of this
+			// create a an image for each button
+			// http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
 			String imageName = pictures.get(i);
 			URL imageURL = OurController.class.getResource(imageName);
 			ImageIcon postPic = new ImageIcon(imageURL);
-	        
-	        // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
 	        Image img = postPic.getImage();
 	        Image newimg = img.getScaledInstance(85, 85, java.awt.Image.SCALE_SMOOTH);
 	        postPic = new ImageIcon(newimg);
 			
+	        // create the button and place the image on it
 	        JButton pictureButton = new JButton(postPic);
 	        pictureButton.setSize(new Dimension(85,85));
 	        pictureButton.setOpaque(false);
 	        pictureButton.setBorderPainted(false);
 	        pictureButton.setContentAreaFilled(false);
-	        //ImageIcon post = new ImageIcon(updateURL);
 	        pictureButton.setName(imageName);
-	    	//pictureButton.setIcon(post);
 	        pictureButton.addActionListener(new PictureListener());
-	        
 	        add(pictureButton);
 	        
 		}
 		
 	}
 	
+	// listener for all of the pictures
 	class PictureListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e){
 			
+			// get the name of the button
 			// http://stackoverflow.com/questions/7867834/get-button-name-from-actionlistener
 			JButton selectedImage = (JButton) e.getSource();
 			String imageName = selectedImage.getName();
 			
-			// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
-			/*String answer = (String)JOptionPane.showInputDialog(anApplet, "Do you want to post this picture?",
-                    											"Customized Dialog", JOptionPane.PLAIN_MESSAGE,
-                    											null, null, null);*/
-			
-			String answer = (String)JOptionPane.showInputDialog(anApplet, "Add a caption:",
+			// create a joptionpane to ask the user if they want to post the picture
+			String answer = (String)JOptionPane.showInputDialog(aController, "Add a caption:",
 															    "Do you want to post this picture?",
 															    JOptionPane.PLAIN_MESSAGE,
 															    null, null, null);
 			
 			if (answer != null){
-				
-				if (answer.equals("")){
+				// add the picture to the newsfeed
+				if (answer.equals("")){ // if the user didn't add a caption
 					newsfeed.addPicture("You posted a picture:", imageName);
 				}
-				else {
+				else { // if the user did add a caption
 					newsfeed.addPicture("You: " + answer, imageName);
 				}
 				
