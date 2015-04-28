@@ -1,0 +1,24 @@
+1. figure out how to run an applet using html
+2. cite sources for the lessons
+3. add comments
+4. unit testing
+5. create folders in bin for the images and text files
+6. usability study
+7. results page
+8. send info to canvas and results
+9. button to get to results
+10. give users pictures
+11. need to be able to send other info on infoQuiz (not just name and email)
+12. link newsfeed to friends that you selected
+13. allow the user to change their profile picture
+14. add ads to the newsfeed
+15. create constants for all strings and ints (ints especially on canvas)
+16. allow the user to add friends
+17. add customized messages and pictures for each user
+18. create better bad link messages
+19. figure out where to store list of friends/other information for the user
+20. add more threads?
+21. get rid of print statements when generating the newsfeed
+22. does anything bad happen if the newsfeed gets too long?
+23. figure out a way to stop the newsfeed when the results page is picked
+//24. add message to user if their passwords don’t match
