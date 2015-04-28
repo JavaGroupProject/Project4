@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
@@ -22,6 +23,13 @@ public class FriendTest extends JPanel implements MyQuestion {
 	
 	// Image for background
 	private Image backgroundImage;
+	
+	private final String FRIEND1_NAME = "Herbert Gruber";
+	private final String FRIEND2_NAME = "Charlie Scott";
+	private final String FRIEND3_NAME = "Bernie McDool";
+	private final String FRIEND4_NAME = "Amy Parker";
+	private final String FRIEND5_NAME = "Ben Connolly";
+	private final String FRIEND6_NAME = "Lisa Williams";
 	
 	// Add friend list images
 	Image friendImage1;
@@ -109,66 +117,6 @@ public class FriendTest extends JPanel implements MyQuestion {
 		    }
 		});
 		
-		// Listener to take user to first screen of lesson
-		friendButton1.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		     	Friend friend1 = new Friend("Herbert Gruber", "friendicon1-01.png", 0, "Jersey City NJ", 24);
-		     	//aController.addFriend(friend1);
-		     	friendList.add(friend1);
-		    }
-		});
-		
-		// Listener to take user to first screen of lesson
-		friendButton2.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		     	Friend friend2 = new Friend("Charlie Scott", "friendicon2-01.png", 0, "Naples FA", 34);
-		     	//aController.addFriend(friend2);
-		     	friendList.add(friend2);
-		    }
-		});
-		
-		// Listener to take user to first screen of lesson
-		friendButton3.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		     	Friend friend3 = new Friend("Bernie McDool", "friendicon3-01.png", 0, "Sand Diego CA", 42);
-		     	//aController.addFriend(friend3);
-		     	friendList.add(friend3);
-		    }
-		});
-		
-		// Listener to take user to first screen of lesson
-		friendButton4.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		     	Friend friend4 = new Friend("Amy Parker", "friendicon4-01.png", 45, "Derby CT", 35);
-		     	//aController.addFriend(friend4);
-		     	friendList.add(friend4);
-		    }
-		});
-		
-		// Listener to take user to first screen of lesson
-		friendButton5.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		     	Friend friend5 = new Friend("Ben Connolly", "friendicon5-01.png", 63, "Louisville KY", 37);
-		     	//aController.addFriend(friend5);
-		     	friendList.add(friend5);
-		    }
-		});
-		
-		// Listener to take user to first screen of lesson
-		friendButton6.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		     	Friend friend6 = new Friend("Lisa Williams", "friendicon6-01.png", 12, "Phoenix AZ", 74);
-		     	//aController.addFriend(friend6);
-		     	friendList.add(friend6);
-		    }
-		});
-		
 	}
 
 	@Override
@@ -191,6 +139,8 @@ public class FriendTest extends JPanel implements MyQuestion {
 	    
      	// Image button 1
     	friendButton1 = new JButton();
+    	friendButton1.addActionListener(new FriendListener());
+    	friendButton1.setName(FRIEND1_NAME);
     	friendButton1.setOpaque(false);
     	friendButton1.setBorderPainted(false);
     	friendButton1.setContentAreaFilled(false);
@@ -199,6 +149,8 @@ public class FriendTest extends JPanel implements MyQuestion {
     	
     	// Add image button 2
         friendButton2 = new JButton();
+        friendButton2.addActionListener(new FriendListener());
+        friendButton2.setName(FRIEND2_NAME);
     	friendButton2.setOpaque(false);
     	friendButton2.setBorderPainted(false);
     	friendButton2.setContentAreaFilled(false);
@@ -207,6 +159,8 @@ public class FriendTest extends JPanel implements MyQuestion {
     	
     	// Add image button #3
         friendButton3 = new JButton();
+        friendButton3.addActionListener(new FriendListener());
+        friendButton3.setName(FRIEND3_NAME);
     	friendButton3.setOpaque(false);
     	friendButton3.setBorderPainted(false);
     	friendButton3.setContentAreaFilled(false);
@@ -215,6 +169,8 @@ public class FriendTest extends JPanel implements MyQuestion {
     	
     	// Add image button #4  	
         friendButton4 = new JButton();
+        friendButton4.addActionListener(new FriendListener());
+        friendButton4.setName(FRIEND4_NAME);
     	friendButton4.setOpaque(false);
     	friendButton4.setBorderPainted(false);
     	friendButton4.setContentAreaFilled(false);
@@ -223,6 +179,8 @@ public class FriendTest extends JPanel implements MyQuestion {
     	
     	// Add image button #5    	
         friendButton5 = new JButton();
+        friendButton5.addActionListener(new FriendListener());
+        friendButton5.setName(FRIEND5_NAME);
     	friendButton5.setOpaque(false);
     	friendButton5.setBorderPainted(false);
     	friendButton5.setContentAreaFilled(false);
@@ -231,6 +189,8 @@ public class FriendTest extends JPanel implements MyQuestion {
     	
     	// Add image button #6 	
         friendButton6 = new JButton();
+        friendButton6.addActionListener(new FriendListener());
+        friendButton6.setName(FRIEND6_NAME);
     	friendButton6.setOpaque(false);
     	friendButton6.setBorderPainted(false);
     	friendButton6.setContentAreaFilled(false);
@@ -281,4 +241,51 @@ public class FriendTest extends JPanel implements MyQuestion {
         super.paintComponent(g);
         g.drawImage(backgroundImage, 0, 0, this);
     }
+	
+	class FriendListener implements ActionListener {
+		
+		public void actionPerformed(ActionEvent e){
+			
+			// http://stackoverflow.com/questions/7867834/get-button-name-from-actionlistener
+			JButton selectedImage = (JButton) e.getSource();
+			String friendName = selectedImage.getName();
+			
+			boolean canAdd = true;
+			
+			for (int i = 0; i < friendList.size(); i++){
+				if (friendName == friendList.get(i).getName()){
+					canAdd = false;
+				}
+			}
+			
+			if (canAdd){
+				
+				if (friendName.equals(FRIEND1_NAME)){
+			     	friendList.add(new Friend("Herbert Gruber", "friendicon1-01.png", 0, "Jersey City NJ", 24));
+				}
+				else if (friendName.equals(FRIEND2_NAME)){
+			     	friendList.add(new Friend("Charlie Scott", "friendicon2-01.png", 0, "Naples FA", 34));
+				}
+				else if (friendName.equals(FRIEND3_NAME)){
+			     	friendList.add(new Friend("Bernie McDool", "friendicon3-01.png", 0, "Sand Diego CA", 42));
+				}
+				else if (friendName.equals(FRIEND4_NAME)){
+			     	friendList.add(new Friend("Amy Parker", "friendicon4-01.png", 45, "Derby CT", 35));
+				}
+				else if (friendName.equals(FRIEND5_NAME)){
+			     	friendList.add(new Friend("Ben Connolly", "friendicon5-01.png", 63, "Louisville KY", 37));
+				}
+				else if (friendName.equals(FRIEND6_NAME)){
+			     	friendList.add(new Friend("Lisa Williams", "friendicon6-01.png", 12, "Phoenix AZ", 74));
+				}
+				else {
+					// TODO should throw an exception
+				}
+				
+			}
+			
+		}
+		
+	}
+	
 }
