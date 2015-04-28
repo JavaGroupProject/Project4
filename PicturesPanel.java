@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -12,17 +13,20 @@ import javax.swing.JPanel;
 
 public class PicturesPanel extends JPanel {
 
-	private MyApplet anApplet;
+	private OurController anApplet;
+	
 	private Newsfeed newsfeed;
 	
-	public PicturesPanel(MyApplet thisApplet, Newsfeed newsfeed){
+	//private URL updateURL = OurController.class.getResource("PostButton.png");
+	
+	public PicturesPanel(OurController thisApplet, Newsfeed newsfeed){
 		
 		this.anApplet = thisApplet;
 		this.newsfeed = newsfeed;
 		
 		//setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		//setLayout(new BorderLayout());
-		setPreferredSize(new Dimension(300, 295));
+		setPreferredSize(new Dimension(300, 280));
 		setBackground(Color.WHITE);
 		
 		init();
@@ -36,7 +40,7 @@ public class PicturesPanel extends JPanel {
 		for (int i = 0; i < pictures.size(); i++){
 			
 			String imageName = pictures.get(i);
-			URL imageURL = MyApplet.class.getResource(imageName);
+			URL imageURL = OurController.class.getResource(imageName);
 			ImageIcon postPic = new ImageIcon(imageURL);
 	        
 	        // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
@@ -49,7 +53,9 @@ public class PicturesPanel extends JPanel {
 	        pictureButton.setOpaque(false);
 	        pictureButton.setBorderPainted(false);
 	        pictureButton.setContentAreaFilled(false);
+	        //ImageIcon post = new ImageIcon(updateURL);
 	        pictureButton.setName(imageName);
+	    	//pictureButton.setIcon(post);
 	        pictureButton.addActionListener(new PictureListener());
 	        
 	        add(pictureButton);
@@ -67,9 +73,14 @@ public class PicturesPanel extends JPanel {
 			String imageName = selectedImage.getName();
 			
 			// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
-			String answer = (String)JOptionPane.showInputDialog(anApplet, "Do you want to post this picture?",
+			/*String answer = (String)JOptionPane.showInputDialog(anApplet, "Do you want to post this picture?",
                     											"Customized Dialog", JOptionPane.PLAIN_MESSAGE,
-                    											null, null, null);
+                    											null, null, null);*/
+			
+			String answer = (String)JOptionPane.showInputDialog(anApplet, "Add a caption:",
+															    "Do you want to post this picture?",
+															    JOptionPane.PLAIN_MESSAGE,
+															    null, null, null);
 			
 			if (answer != null){
 				

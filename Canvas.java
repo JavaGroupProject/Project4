@@ -1,15 +1,19 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,51 +25,65 @@ import javax.swing.SpringLayout;
 public class Canvas extends JPanel {
 
 	// Frame object
-	private MyApplet anApplet;
+	private OurController anApplet;
 	
 	// Store the spring layout
 	private SpringLayout springLayout;
 	
+	// Image for background
+	private Image backgroundImage;
+	
+	// Pull image url from bin
+	URL backgroundURL = OurController.class.getResource("Canvas.png");
+	URL postURL = OurController.class.getResource("PostButton.png");
+	URL submitURL = OurController.class.getResource("SubmitButton.png");
+	URL resultsURL = OurController.class.getResource("ResultsButton.png");
+	
 	// Store all of the elements that will appear on the canvas
 	private JTextArea status;
 	private JButton statusButton;
+	private JButton resultsButton;
+	
 	private JScrollPane newsfeedScrollPane;
 	private JPanel privacyPanel;
 	private JPanel infoPanel;
 	private JPanel friendsPanel;
 	private JPanel picturesPanel;
+	private JLabel profpicLabel;
 	
 	private Newsfeed newsfeed;
 	
 	// Constructor
-	public Canvas(MyApplet thisApplet){
-				
+	public Canvas(OurController thisApplet){
+		
 		this.anApplet = thisApplet;
 		
-		// TODO
-		anApplet.getUser().setProfilePicture("image1.jpg");
-		anApplet.getUser().setName("User Name");
-		anApplet.getUser().setEmail("user@email.com");
-		anApplet.getUser().addPicture("picture.png");
 		anApplet.getUser().addPicture("image1.jpg");
 		anApplet.getUser().addPicture("image2.jpg");
 		anApplet.getUser().addPicture("image3.jpg");
+		anApplet.getUser().addPicture("image4.jpg");
 		
-		initCanvas();
-		
+		initCanvas();		
 	}
 	
 	public void initCanvas(){
-				
+		
 		// move the initialization of each element to its own method
 		
 		// initialize the spring layout
 		springLayout = new SpringLayout();
         setLayout(springLayout);
+        
+        // Set background
+  		try {
+  			backgroundImage = ImageIO.read(backgroundURL);
+  		} catch (IOException e1) {
+  			// TODO Auto-generated catch block
+  			e1.printStackTrace();
+  		}
 		
         // create the text area for posting a status
         status = new JTextArea(4, 26);
-        //status.setSize(new Dimension(320, 100));
         status.setEditable(true);
         status.setLineWrap(true);
         status.setWrapStyleWord(true);
@@ -79,22 +97,27 @@ public class Canvas extends JPanel {
         
         // create the button to add the post to the newsfeed
                 
-        statusButton = new JButton("POST");
+        statusButton = new JButton();
         springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, statusButton,0,SpringLayout.HORIZONTAL_CENTER, this);
         springLayout.putConstraint(SpringLayout.NORTH, statusButton, 5, SpringLayout.SOUTH, statusScrollPane);
         
         statusButton.addActionListener(new StatusListener());
         
+        statusButton.setOpaque(false);
+        statusButton.setBorderPainted(false);
+        statusButton.setContentAreaFilled(false);
+    	ImageIcon post = new ImageIcon(postURL);
+    	statusButton.setIcon(post);
         add(statusButton);
         
         // create a newsfeed object
-		newsfeed = new Newsfeed(this);
+		newsfeed = new Newsfeed(anApplet);
 		
 		// create a scroll pane for the newsfeed
 		newsfeedScrollPane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 											 ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		newsfeedScrollPane.setViewportView(newsfeed);
-		newsfeedScrollPane.setPreferredSize(new Dimension(320, 505));
+		newsfeedScrollPane.setPreferredSize(new Dimension(320,505));
 		
 		springLayout.putConstraint(SpringLayout.HORIZONTAL_CENTER, newsfeedScrollPane,0,SpringLayout.HORIZONTAL_CENTER, this);
         springLayout.putConstraint(SpringLayout.NORTH, newsfeedScrollPane, 5, SpringLayout.SOUTH, statusButton);
@@ -105,9 +128,8 @@ public class Canvas extends JPanel {
 		// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html
 		// https://docs.oracle.com/javase/tutorial/uiswing/components/icon.html#applet
 		// picture is in bin file for the project
-		
 		String imageName = anApplet.getUser().getProfilePicture();
-		URL imageURL = MyApplet.class.getResource(imageName);
+		URL imageURL = OurController.class.getResource(imageName);
 		ImageIcon profpic = new ImageIcon(imageURL);
 		
 		// create an image icon for the profile picture
@@ -119,57 +141,77 @@ public class Canvas extends JPanel {
         Image newimg = img.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
         profpic = new ImageIcon(newimg);
         
-        JLabel profpicLabel = new JLabel(profpic);
-        profpicLabel.setSize(new Dimension(150,150));
+        profpicLabel = new JLabel(profpic);
+        profpicLabel.setSize(new Dimension(150, 150));
         
         springLayout.putConstraint(SpringLayout.EAST, profpicLabel, -95,SpringLayout.WEST, statusScrollPane);
         springLayout.putConstraint(SpringLayout.NORTH, profpicLabel, 120, SpringLayout.NORTH, this);
         
         add(profpicLabel);
         
-		privacyPanel = new PrivacyPanel(anApplet);
-		/*privacyPanel.setPreferredSize(new Dimension(300, 210));
-		privacyPanel.setBackground(Color.WHITE);
-		
-		privacyPanel.add(new JLabel("PRIVACY"), BorderLayout.CENTER);*/
+        privacyPanel = new PrivacyPanel(anApplet);
 		
 		springLayout.putConstraint(SpringLayout.EAST, privacyPanel, -20, SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, privacyPanel, 40, SpringLayout.SOUTH, profpicLabel);
+        springLayout.putConstraint(SpringLayout.NORTH, privacyPanel, 50, SpringLayout.SOUTH, profpicLabel);
 		
         add(privacyPanel);
         
         infoPanel = new InfoPanel(anApplet);
 		
 		springLayout.putConstraint(SpringLayout.EAST, infoPanel, -20, SpringLayout.WEST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, infoPanel, 40, SpringLayout.SOUTH, privacyPanel);
+        springLayout.putConstraint(SpringLayout.NORTH, infoPanel, 100, SpringLayout.SOUTH, privacyPanel);
 		
         add(infoPanel);
         
         friendsPanel = new FriendPanel(anApplet);
-        
-		/*friendsPanel = new JPanel();
-		friendsPanel.setPreferredSize(new Dimension(300, 295));
-		friendsPanel.setBackground(Color.WHITE);
-		
-		friendsPanel.add(new JLabel("Friends"), BorderLayout.CENTER);*/
 		
 		springLayout.putConstraint(SpringLayout.WEST, friendsPanel, 20, SpringLayout.EAST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 120, SpringLayout.NORTH, this);
+        springLayout.putConstraint(SpringLayout.NORTH, friendsPanel, 180, SpringLayout.NORTH, this);
 		
         add(friendsPanel);
         
         picturesPanel = new PicturesPanel(anApplet, newsfeed);
-		/*picturesPanel = new JPanel();
-		picturesPanel.setPreferredSize(new Dimension(300, 295));
-		picturesPanel.setBackground(Color.WHITE);
-		
-		picturesPanel.add(new JLabel("Pictures"), BorderLayout.CENTER);*/
 		
 		springLayout.putConstraint(SpringLayout.WEST, picturesPanel, 20, SpringLayout.EAST, statusScrollPane);
-        springLayout.putConstraint(SpringLayout.NORTH, picturesPanel, 20, SpringLayout.SOUTH, friendsPanel);
+        springLayout.putConstraint(SpringLayout.NORTH, picturesPanel, 60, SpringLayout.SOUTH, friendsPanel);
 		
-        add(picturesPanel);
+        add(picturesPanel); 
         
+        resultsButton = new JButton("RESULTS");
+        resultsButton.addActionListener(new ActionListener(){
+        	public void actionPerformed(ActionEvent e){
+        		// stop timer
+        		newsfeed.stopTimer();
+        		anApplet.showResults();
+        	}
+        });
+        
+        springLayout.putConstraint(SpringLayout.WEST, resultsButton, 900, SpringLayout.WEST, this);
+        springLayout.putConstraint(SpringLayout.NORTH, resultsButton, 0, SpringLayout.NORTH, this);
+	
+        add(resultsButton);
+	}
+	
+	public void display(){
+		
+		String imageName = anApplet.getUser().getProfilePicture();
+		URL imageURL = OurController.class.getResource(imageName);
+		ImageIcon profpic = new ImageIcon(imageURL);
+        // http://www.coderanch.com/t/331731/GUI/java/Resize-ImageIcon
+        Image img = profpic.getImage();
+        Image newimg = img.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        profpic = new ImageIcon(newimg);
+		
+        profpicLabel.setIcon(profpic);
+		
+        infoPanel.revalidate();
+        infoPanel.repaint();
+        
+        friendsPanel.revalidate();
+        friendsPanel.repaint();
+        
+        picturesPanel.revalidate();
+        picturesPanel.repaint();
         
 	}
 	
@@ -198,14 +240,14 @@ public class Canvas extends JPanel {
 				// http://stackoverflow.com/questions/15798532/how-to-clear-jtextarea
 				status.setText(null);
 				status.revalidate();
-				status.repaint();
-				
-				
+				status.repaint();	
 			}
-			
-
-		}
-		
+		}		
 	}
 	
+	// Paint the background
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, this);
+    }
 }

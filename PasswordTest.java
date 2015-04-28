@@ -1,10 +1,15 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URL;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.SpringLayout;
@@ -13,7 +18,14 @@ import javax.swing.SpringLayout;
 public class PasswordTest extends JPanel implements MyQuestion {
 
 	// Applet object
-	private MyApplet anApplet;
+	private OurController aController;
+	
+	// Image for background
+	private Image backgroundImage;
+	
+	// Get image URLs
+	URL submitURL = OurController.class.getResource("Submit Button.png");
+	URL backgroundURL = OurController.class.getResource("PaswordQuiz-01.png");
 	
 	// Layout
 	private SpringLayout layout;
@@ -23,7 +35,6 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	
 	// Button
 	private JButton submitButton;
-	private JButton returnButton = new JButton("BACK");
 	
 	// Fields
 	private JPasswordField passwordField;
@@ -36,34 +47,29 @@ public class PasswordTest extends JPanel implements MyQuestion {
 	// Strings
 	private String password;
 	private String confirmedPassword;
+	private boolean matching = false;
+	private boolean length = false;
+	private boolean includesSymbol = false;
+	private boolean includesNumber = false;
+	private boolean includesUpperCase = false;
+	private boolean includesLowerCase = false;
 	
 	// Constructor
-	public PasswordTest(MyApplet thisApplet, int aNumber){
+	public PasswordTest(OurController thisApplet, int aNumber){
 		
-		this.anApplet = thisApplet;
+		this.aController = thisApplet;
 		
 		number = aNumber;
 		
 		layout = new SpringLayout();
         setLayout(layout);
         
-    	// Add button
-		JPanel buttonsPanel = new JPanel(new BorderLayout());
-		buttonsPanel.setBackground(Color.WHITE);
-		buttonsPanel.add(returnButton, BorderLayout.WEST);
-		add(buttonsPanel);
-		
-		// Adjust constraints for the panel
-	    layout.putConstraint(SpringLayout.WEST, buttonsPanel, 3, SpringLayout.WEST, this);
-	    layout.putConstraint(SpringLayout.NORTH, buttonsPanel, 470, SpringLayout.NORTH, this);
-		
-		// listener to take the user to the previous screen
-		returnButton.addActionListener(new ActionListener(){
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		    	anApplet.showNextLesson(4);
-		    }
-		});
+		// Set background
+		try {
+			backgroundImage = ImageIO.read(backgroundURL);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
         setQuestion();
         setAnswer();
@@ -79,10 +85,21 @@ public class PasswordTest extends JPanel implements MyQuestion {
 			
 	        boolean isGoodPassword = isCorrect();
 	        
-	        if (isGoodPassword){
+	        // if the required info is entered
+	        if(isGoodPassword){
 	        	
-				anApplet.showNextTest(number);
+	        	aController.showNextTest(number);
+	        	
+	        }else{
+	        	isCorrect();
+        	
+	        	// https://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
+	        	JOptionPane.showMessageDialog(aController,
+	        		    getErrorMessage(),
+	        		    "Error",
+	        		    JOptionPane.ERROR_MESSAGE);
 	        }
+	        
 		}
 	}
 	
@@ -90,52 +107,45 @@ public class PasswordTest extends JPanel implements MyQuestion {
 		// this is done by the ActionListener
 	}
 	
-    public Boolean isCorrect(){
-        
-        // check if the passwords match
+	
+	public Boolean isCorrect(){
+		// check if the passwords match
         if (password.equals(confirmedPassword)){
-            
-            // check if password is long enough
-            if (password.length() >= 8){
-                
-                boolean includesSymbol = false;
-                boolean includesNumber = false;
-                boolean includesUpperCase = false;
-                boolean includesLowerCase = false;
-                
-                // check if password contains a symbol, number, upper case letter, and lower case letter
-                for (int i = 0; i < password.length(); i++){
-                    
-                    char thisChar = password.charAt(i);
-                    
-                    // symbols
-                    if ((thisChar >= 32 && thisChar <= 47) || (thisChar >= 58 && thisChar <= 64) ||
-                        (thisChar >= 91 && thisChar <= 96) || (thisChar >= 123 && thisChar <= 126)){
-                        includesSymbol = true;
-                    }
-                    // numbers
-                    else if (thisChar >= 48 && thisChar <= 57){
-                        includesNumber = true;
-                    }
-                    // upper case letters
-                    else if (thisChar >= 65 && thisChar <= 90){
-                        includesUpperCase = true;
-                    }
-                    // lower case letters
-                    else {
-                        includesLowerCase = true;
-                    }
-                    
-                }
-                
-                return includesSymbol && includesNumber && includesUpperCase && includesLowerCase;
-                
-            }	
-            
+        	matching = true;
         }
-        
-        return false;
+            
+        // check if password is long enough
+        if (password.length() >= 8){
+        	length = true;
+        }
+                
+        // check if password contains a symbol, number, upper case letter, and lower case letter
+        for (int i = 0; i < password.length(); i++){
+            
+            char thisChar = password.charAt(i);
+            
+            // symbols
+            if ((thisChar >= 32 && thisChar <= 47) || (thisChar >= 58 && thisChar <= 64) ||
+                (thisChar >= 91 && thisChar <= 96) || (thisChar >= 123 && thisChar <= 126)){
+                includesSymbol = true;
+            }
+            // numbers
+            else if (thisChar >= 48 && thisChar <= 57){
+                includesNumber = true;
+            }
+            // upper case letters
+            else if (thisChar >= 65 && thisChar <= 90){
+                includesUpperCase = true;
+            }
+            // lower case letters
+            else {
+                includesLowerCase = true;
+            }   
+        }
+                
+       return matching && length && includesSymbol && includesNumber && includesUpperCase && includesLowerCase;
     }
+
 	
 	public void setAnswer(){
 	        
@@ -161,8 +171,15 @@ public class PasswordTest extends JPanel implements MyQuestion {
 		
 		passwordLabel = new JLabel("Enter password: ");
 		confirmLabel = new JLabel("Confirm password: ");
-		submitButton = new JButton("SUBMIT");
+		submitButton = new JButton();
 		submitButton.addActionListener(new TextListener());
+		
+		// Add icon to submit button
+		submitButton.setOpaque(false);
+		submitButton.setBorderPainted(false);
+		submitButton.setContentAreaFilled(false);
+        ImageIcon submit = new ImageIcon(submitURL);
+        submitButton.setIcon((submit));
 		
 		// change these to be in relation to each other
 		
@@ -180,5 +197,34 @@ public class PasswordTest extends JPanel implements MyQuestion {
         add(confirmLabel);
         
 	}
+	
+	private String getErrorMessage(){
+		
+		String error = "";
+		
+		if(!matching){
+			error += ("Passwords do not match.\n");
+		}
+		if(!length){
+			error += ("Password is not long enough.\n");
+		}
+		if(!includesSymbol){
+			error += ("Password must inlcude a special character.\n");
+		}
+		if(!includesNumber){
+			error += ("Password must include a number.\n");
+		}
+		if(!includesUpperCase || !includesLowerCase){
+			error += ("Password must include both upper and lower case characters.\n");
+		}
+		
+		return error;
+	}
+	
+	// Paint the background
+	public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(backgroundImage, 0, 0, this);
+    }
 	
 }

@@ -25,8 +25,8 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 public class Newsfeed extends JPanel {
-
-	private Canvas canvas;
+	
+	private OurController aController;
 	
 	// variables to help generate posts on the newsfeed
 	private int newsfeedIndex = 0;
@@ -34,24 +34,22 @@ public class Newsfeed extends JPanel {
 	
 	// array list to store the friends that the user has chosen
 	// information should be generated from the friends quiz
-	private ArrayList<Friend> friends = new ArrayList<Friend>();
+	private ArrayList<Friend> friends; //= new ArrayList<Friend>();
 	
 	// array list to store the text for all of the bad links
 	private ArrayList<String> badLinks = new ArrayList<String>();
 	
-	public Newsfeed(Canvas canvas){
+	private Timer timer;
+	
+	public Newsfeed(OurController controller){
 		
-		// TODO this is just to test that the friends class works
-		//Friend f = new Friend("Name", "profpic", 2, "location", 4);
-		friends.add(new Friend("Name", "picture.png", 1, "location1", 100));
-		friends.add(new Friend("Another Name", "image4.jpg", 2, "location2", 20));
+		this.aController = controller;
+		
+		friends = aController.getFriends();
 		
 		// adds a new picture post every 10 seconds
-		Timer timer = new Timer(10000, new timerListener());
+		timer = new Timer(10000, new timerListener());
 	    timer.start();
-		
-		// not sure if this is necessary
-		this.canvas = canvas;
 		
 		initNewsfeed();
 		
@@ -75,6 +73,12 @@ public class Newsfeed extends JPanel {
 		
 		// set the background color to white
 		setBackground(Color.WHITE);
+		
+	}
+	
+	public void stopTimer(){
+		
+		timer.stop();
 		
 	}
 	
@@ -202,12 +206,11 @@ public class Newsfeed extends JPanel {
             	JTextField addressField = new JTextField(20);
             	optionPanel.add(addressField);
             	
-            	int result = JOptionPane.showConfirmDialog(canvas, optionPanel, "Enter your information", 
+            	int result = JOptionPane.showConfirmDialog(aController, optionPanel, "Enter your information", 
             											   JOptionPane.OK_CANCEL_OPTION);
             	
                 if (result == JOptionPane.OK_OPTION) {
                 	// TODO need to figure out what to do with this information/what to do if it is empty
-                	// set results boolean to true if all 3 of these fields aren't blank
                 	String name = nameField.getText();
                 	String email = emailField.getText();
                 	String address = addressField.getText();
@@ -249,7 +252,7 @@ public class Newsfeed extends JPanel {
   			// both can be with or without pictures
   			switch(newsfeedIndex){
   				case 0: // text and picture
-  					System.out.println("text and picture");
+  					//System.out.println("text and picture");
   					
 			  		// generate a random number from 0 to the size of the friends list - 1 
   					// (a valid index into the ArrayList)
@@ -259,7 +262,7 @@ public class Newsfeed extends JPanel {
 			  		addPicture(caption, friends.get(randomIndex).getRandomPicture());
 			  		break;
 			  	case 1: // bad link
-			  		System.out.println("add bad link");
+			  		//System.out.println("add bad link");
 			  		
 			  		// generate a random number from 0 to the size of the bad links list - 1 
   					// (a valid index into the ArrayList)
@@ -268,7 +271,7 @@ public class Newsfeed extends JPanel {
 			  		addLink(badLinks.get(randomLink));
 					break;
 		  		case 2: // text
-			  		System.out.println("add text");
+			  		//System.out.println("add text");
 			  		
 			  		// generate a random number from 0 to the size of the friends list - 1 
   					// (a valid index into the ArrayList)
@@ -279,7 +282,7 @@ public class Newsfeed extends JPanel {
 			  		addPost(postText);
 			  		break;
 			  	case 3: // ad?
-			  		System.out.println("add something here");
+			  		//System.out.println("add something here");
 			  		break;
 			  	default: // error, should throw an exception
 			  		break;
