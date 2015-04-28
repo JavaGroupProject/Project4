@@ -7,7 +7,7 @@ import org.junit.Test;
 public class UserInfoClassUnitTest {
 
 	//create a UserInfo object
-	private UserInfo UserInfoTest;
+	private UserInfo UserInfoTest = new UserInfo();
 	private ArrayList<String> picturesTest = new ArrayList<String>();
 	
 	@Test
@@ -23,11 +23,12 @@ public class UserInfoClassUnitTest {
 	}
 	
 	public void compare(ArrayList<String> lst, String[] strs) {
-		    Object[] array = lst.toArray();
-		    Assert.assertTrue("Arrays not the same length", 
-		    		array.length == strs.length);
-		    for (int i = 0; i < array.length; i++)
-		      Assert.assertEquals(strs[i], (String) array[i]);
+		Object[] array = lst.toArray();
+		Assert.assertTrue("Arrays not the same length", 
+			array.length == strs.length);
+		for (int i = 0; i < array.length; i++) {
+			Assert.assertEquals(strs[i], (String) array[i]);
+		}
 	}
 	
 	@Test
@@ -36,10 +37,10 @@ public class UserInfoClassUnitTest {
 		picturesTest.add("TestPicture2.png");
 		picturesTest.add("TestPicture3.png");
 		
-		Assert.assertEquals(picturesTest.size(), 3);
-	    UserInfoTest.addPicture("AddPicture.png");
-	    Assert.assertEquals(picturesTest.size(), 4);
-	    compare(picturesTest, new String[] { "TestPicture1.png", "TestPicture2.png", 
+	    	Assert.assertEquals(picturesTest.size(), 3);
+	    	UserInfoTest.addPicture("AddPicture.png");
+	    	Assert.assertEquals(picturesTest.size(), 4);
+	    	compare(picturesTest, new String[] { "TestPicture1.png", "TestPicture2.png", 
 	    		"TestPicture3.png", "AddPicture.png" });
 	}
 	
