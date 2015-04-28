@@ -1,0 +1,55 @@
+import java.util.ArrayList;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+//unit test for UserInfo class
+public class UserInfoClassUnitTest {
+
+	//create a UserInfo object
+	private UserInfo UserInfoTest;
+	private ArrayList<String> picturesTest = new ArrayList<String>();
+	
+	@Test
+	public void getGenderTest() {
+		//gender string for test
+		String genderTest = "Female";
+		//set the gender from UserInfo class
+		UserInfoTest.setGender(genderTest);
+		//get the gender from UserInfo class
+		String gender = UserInfoTest.getGender();
+		//check if the gender string matches
+		Assert.assertEquals(gender, genderTest);
+	}
+	
+	public void compare(ArrayList<String> lst, String[] strs) {
+		    Object[] array = lst.toArray();
+		    Assert.assertTrue("Arrays not the same length", 
+		    		array.length == strs.length);
+		    for (int i = 0; i < array.length; i++)
+		      Assert.assertEquals(strs[i], (String) array[i]);
+	}
+	
+	@Test
+	public void addPictureTest() {
+		picturesTest.add("TestPicture1.png");
+		picturesTest.add("TestPicture2.png");
+		picturesTest.add("TestPicture3.png");
+		
+		Assert.assertEquals(picturesTest.size(), 3);
+	    UserInfoTest.addPicture("AddPicture.png");
+	    Assert.assertEquals(picturesTest.size(), 4);
+	    compare(picturesTest, new String[] { "TestPicture1.png", "TestPicture2.png", 
+	    		"TestPicture3.png", "AddPicture.png" });
+	}
+	
+	@Test
+	public void getProfilePictureTest() {
+		//profile picture string for test
+		String profilePicture = "profPic3-01.png";
+		//get the profile picture string from UserInfo class
+		String profilePictureTest = UserInfoTest.getProfilePicture();
+		//check if the gender string matches
+		Assert.assertTrue(profilePicture.equals(profilePictureTest));
+	}
+}
