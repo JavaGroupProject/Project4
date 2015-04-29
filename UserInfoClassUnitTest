@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,7 +7,7 @@ public class UserInfoClassUnitTest {
 
 	//create a UserInfo object
 	private UserInfo UserInfoTest = new UserInfo();
-	private ArrayList<String> picturesTest = new ArrayList<String>();
+	private ArrayList<String> pictures = new ArrayList<String>();
 	
 	@Test
 	public void getGenderTest() {
@@ -25,10 +24,19 @@ public class UserInfoClassUnitTest {
 	public void compare(ArrayList<String> lst, String[] strs) {
 		Object[] array = lst.toArray();
 		Assert.assertTrue("Arrays not the same length", 
-			array.length == strs.length);
-		for (int i = 0; i < array.length; i++) {
+		 		array.length == strs.length);
+		for (int i = 0; i < array.length; i++)
 			Assert.assertEquals(strs[i], (String) array[i]);
-		}
+	}
+	
+	@Test
+	public void getProfilePictureTest() {
+		//profile picture string for test
+		String profilePicture = "profPic3-01.png";
+		//get the profile picture string from UserInfo class
+		String profilePictureTest = UserInfoTest.getProfilePicture();
+		//check if the gender string matches
+		Assert.assertTrue(profilePicture.equals(profilePictureTest));
 	}
 	
 	@Test
@@ -43,12 +51,46 @@ public class UserInfoClassUnitTest {
 	}
 	
 	@Test
-	public void getProfilePictureTest() {
-		//profile picture string for test
-		String profilePicture = "profPic3-01.png";
-		//get the profile picture string from UserInfo class
-		String profilePictureTest = UserInfoTest.getProfilePicture();
-		//check if the gender string matches
-		Assert.assertTrue(profilePicture.equals(profilePictureTest));
+	public void getSchoolTest() {
+		//school string for test
+		String schoolExpected = "Georgetown University";
+		//set the gender from UserInfo class
+		UserInfoTest.setSchool(schoolExpected);
+		//get the school string from UserInfo class
+		String schoolActual = UserInfoTest.getSchool();
+		//check if the school string matches
+		Assert.assertEquals(schoolExpected, schoolActual);
+	}
+	
+	@Test
+	public void getNameTest() {
+		//name string for test
+		String name = "Zoe Park";
+		//get the name string from UserInfo class
+		String nameTest = UserInfoTest.getName();
+		//check if the name string matches
+		Assert.assertEquals(name, nameTest);
+	}
+	
+	@Test
+	public void getEmailTest() {
+		//email string for test
+		String email = "zep3@georgetown.edu";
+		//get the email string from UserInfo class
+		String emailTest = UserInfoTest.getEmail();
+		//check if the email string matches
+		Assert.assertEquals(email, emailTest);
+	}
+	
+	@Test
+	public void getGradYearTest() {
+		//graduation year string for test
+		String gradYearExpected = "Georgetown University";
+		//set the graduation year from UserInfo class
+		UserInfoTest.setGradYear(gradYearExpected);
+		//get the graduation year string from UserInfo class
+		String gradYearActual = UserInfoTest.getGradYear();
+		//check if the grad year string matches
+		Assert.assertEquals(gradYearExpected, gradYearActual);
 	}
 }
