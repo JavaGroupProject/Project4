@@ -47,12 +47,14 @@ public class InfoTest extends JPanel implements MyQuestion {
 	private JLabel required;
 	
 	// Fields for user info
-	protected JTextField nameField;
+	private JTextField nameField;
 	private JTextField birthdayField;
 	private JTextField emailField;
 	private JTextField addressField;
 	private JTextField phoneField;
 	private JTextField ssnField;
+	
+	public String email;
 	
 	// Constructor
 	public InfoTest(OurController thisController, int aNumber){
@@ -116,7 +118,7 @@ public class InfoTest extends JPanel implements MyQuestion {
 		// get the fields
         String name = nameField.getText();
         String birthday = birthdayField.getText();
-        String email = emailField.getText();
+        email = emailField.getText();
         String address = addressField.getText();
         String phone = phoneField.getText();
         String ssn = ssnField.getText();
