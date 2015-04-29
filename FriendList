@@ -38,12 +38,12 @@ public class FriendList extends JPanel {
 		Image friendImage6;
     	
 		//add icons for images
-		Icon friendIcon1;
-		Icon friendIcon2;
-		Icon friendIcon3;
-		Icon friendIcon4;
-		Icon friendIcon5;
-		Icon friendIcon6;
+		final Icon friendIcon1 = null;
+		final Icon friendIcon2 = null;
+		final Icon friendIcon3 = null;
+		final Icon friendIcon4 = null;
+		final Icon friendIcon5 = null;
+		final Icon friendIcon6 = null;
 		
 		//add the image buttons
 		BufferedImage button;
@@ -132,4 +132,34 @@ public class FriendList extends JPanel {
  		controlPanel.add(previousButton, BorderLayout.WEST);
  		controlPanel.add(nextButton, BorderLayout.EAST);
  		add(controlPanel, BorderLayout.PAGE_END);
+ 		
+ 		 		friendButton1.addActionListener(new ActionListener() {
+        	@Override
+        	public void actionPerformed(ActionEvent e) {
+        		//Display image on panel and record image selected as profPic
+        		friendButton1.setIcon(null);
+        		friendButton1.revalidate();
+        		
+         		BufferedImage buttonIcon;
+    			try {
+    				buttonIcon = ImageIO.read(new File("/InfoSecurity/src/images/Friend5.png"));
+    				Image img4 = buttonIcon.getScaledInstance(300, 500, java.awt.Image.SCALE_SMOOTH);
+    				final Icon icon1 = new ImageIcon(img4);
+    				friendButton1.setIcon(icon1);
+    				friendButton1.setBorder(BorderFactory.createEmptyBorder());
+    				friendButton1.setContentAreaFilled(false);
+    				friendButton1.setSize(100, 150);
+    			} catch (IOException e1) {
+    				// TODO Auto-generated catch block
+    				e1.printStackTrace();
+    			} 		
+        		
+    			friendButton1.setIcon(friendIcon1);
+    			friendButton1.revalidate();
+           		
+    			friendButton1.setIcon(friendIcon2);
+    			friendButton1.revalidate();
+    			
+        	}
+        });
 	}
