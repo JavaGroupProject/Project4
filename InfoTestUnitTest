@@ -1,0 +1,17 @@
+import javax.swing.JOptionPane;
+
+import org.junit.Test;
+import org.junit.Assert;
+
+public class InfoTestUnitTest {
+
+	private InfoTest InfoTestTest = new InfoTest(null, 0);
+			
+	@Test
+	public void isCorrectTest() {
+		InfoTestTest.email = "";
+		boolean expected = false;
+		boolean actual = InfoTestTest.isCorrect();
+		Assert.assertEquals(expected, actual);
+	}
+}
